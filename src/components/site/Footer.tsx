@@ -1,0 +1,37 @@
+import Link from 'next/link';
+
+export default function Footer() {
+  return (
+    <footer className="bg-barna-dark text-white mt-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div>
+            <h3 className="text-primary-400 font-bold text-lg mb-4">مزون برنا ایران</h3>
+            <p className="text-gray-400 text-sm leading-7">
+              با هدف حفظ و معرفی لباس‌های سنتی اقوام ایران، مزون برنا فروش، اجاره و طراحی لباس محلی را ارائه می‌دهد.
+            </p>
+          </div>
+          <div>
+            <h4 className="text-white font-semibold mb-4">دسترسی سریع</h4>
+            <ul className="space-y-2 text-sm text-gray-400">
+              {[['/', 'صفحه اصلی'], ['/ethnic', 'اقوام ایران'], ['/clothing', 'لباس‌ها'], ['/about', 'درباره ما'], ['/community', 'جامعه'], ['/contact', 'تماس با ما']].map(([href, label]) => (
+                <li key={href}><Link href={href} className="hover:text-primary-400 transition-colors">{label}</Link></li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h4 className="text-white font-semibold mb-4">تماس</h4>
+            <ul className="space-y-2 text-sm text-gray-400">
+              <li>📱 09100000000</li>
+              <li>📧 info@barna.ir</li>
+              <li>📸 <a href="#" className="hover:text-primary-400">@barna_mezon</a></li>
+            </ul>
+          </div>
+        </div>
+        <div className="border-t border-gray-700 pt-6 text-center text-xs text-gray-500">
+          © {new Date().getFullYear()} مزون برنا ایران — تمامی حقوق محفوظ است
+        </div>
+      </div>
+    </footer>
+  );
+}
