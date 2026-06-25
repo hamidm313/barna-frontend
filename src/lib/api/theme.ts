@@ -1,13 +1,16 @@
 import apiClient from './client';
-import { ThemeSettings } from '@/types';
+import { mockThemeApi } from '@/lib/mock';
 
-export const themeApi = {
-  get: async (): Promise<ThemeSettings> => {
-    const { data } = await apiClient.get('/theme');
-    return data;
-  },
-  update: async (theme: Partial<ThemeSettings>) => {
-    const { data } = await apiClient.put('/theme', { theme });
-    return data;
-  },
-};
+const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
+
+export async function getTheme() {
+  if (USE_MOCK) return mockThemeApi.get();
+  const res = await apiClient.get('/theme');
+  return res.data;
+}
+
+export async function updateTheme(settings: unknown[]) {
+  if (USE_MOCK) return mockThemeApi.update(settings);
+  const res = await apiClient.put('/theme', { settings });
+  return res.data;
+}

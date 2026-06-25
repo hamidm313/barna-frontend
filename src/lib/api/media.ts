@@ -1,27 +1,28 @@
 import apiClient from './client';
-import { MediaItem } from '@/types';
+import { mockMediaApi } from '@/lib/mock';
 
-export const mediaApi = {
-  list: async (params?: { type?: string; search?: string; tag?: string; page?: number; limit?: number }): Promise<{ data: MediaItem[]; total: number }> => {
-    const { data } = await apiClient.get('/media', { params });
-    return data;
-  },
-  upload: async (file: File, altText?: string, tags?: number[]): Promise<{ id: number; url: string }> => {
-    const form = new FormData();
-    form.append('file', file);
-    if (altText) form.append('alt_text', altText);
-    if (tags?.length) form.append('tags', JSON.stringify(tags));
-    const { data } = await apiClient.post('/media/upload', form, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
-    return data;
-  },
-  update: async (id: number, payload: { alt_text?: string; tags?: number[] }) => {
-    const { data } = await apiClient.put(`/media/${id}`, payload);
-    return data;
-  },
-  remove: async (id: number) => {
-    const { data } = await apiClient.delete(`/media/${id}`);
-    return data;
-  },
-};
+const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
+
+export async function getMedia(params: Record<string, unknown> = {}) {
+  if (USE_MOCK) return mockMediaApi.list(params);
+  const res = await apiClient.get('/media', { params });
+  return res.data;
+}
+
+export async function uploadMedia(formData: FormData) {
+  if (USE_MOCK) return mockMediaApi.upload();
+  const res = await apiClient.post('/media/upload', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+  return res.data;
+}
+
+export async function updateMedia(id: number, data: { tags?: string[] }) {
+  if (USE_MOCK) return mockMediaApi.update(id, data);
+  const res = await apiClient.put(`/media/${id}`, data);
+  return res.data;
+}
+
+export async function deleteMedia(id: number) {
+  if (USE_MOCK) return mockMediaApi.remove();
+  const res = await apiClient.delete(`/media/${id}`);
+  return res.data;
+}

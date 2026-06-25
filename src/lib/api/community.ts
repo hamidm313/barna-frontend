@@ -1,17 +1,22 @@
 import apiClient from './client';
-import { CommunityPost } from '@/types';
+import { mockCommunityApi } from '@/lib/mock';
 
-export const communityApi = {
-  list: async (params?: { ethnic_group?: string; status?: string; page?: number; limit?: number }): Promise<CommunityPost[]> => {
-    const { data } = await apiClient.get('/community', { params });
-    return data;
-  },
-  create: async (payload: { title?: string; content?: string; images?: string[]; ethnic_group_id?: number }) => {
-    const { data } = await apiClient.post('/community', payload);
-    return data;
-  },
-  updateStatus: async (id: number, status: 'approved' | 'rejected') => {
-    const { data } = await apiClient.put(`/community/${id}/status`, { status });
-    return data;
-  },
-};
+const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
+
+export async function getCommunityPosts(params: Record<string, unknown> = {}) {
+  if (USE_MOCK) return mockCommunityApi.list(params);
+  const res = await apiClient.get('/community', { params });
+  return res.data;
+}
+
+export async function createCommunityPost(data: Record<string, unknown>) {
+  if (USE_MOCK) return mockCommunityApi.create(data);
+  const res = await apiClient.post('/community', data);
+  return res.data;
+}
+
+export async function updateCommunityPostStatus(id: number, status: string) {
+  if (USE_MOCK) return mockCommunityApi.updateStatus(id, status);
+  const res = await apiClient.patch(`/community/${id}/status`, { status });
+  return res.data;
+}

@@ -1,21 +1,22 @@
 import apiClient from './client';
-import { Tag } from '@/types';
+import { mockTagsApi } from '@/lib/mock';
 
-export const tagsApi = {
-  list: async (): Promise<Tag[]> => {
-    const { data } = await apiClient.get('/tags');
-    return data;
-  },
-  create: async (name: string): Promise<Tag> => {
-    const { data } = await apiClient.post('/tags', { name });
-    return data;
-  },
-  update: async (id: number, name: string) => {
-    const { data } = await apiClient.put(`/tags/${id}`, { name });
-    return data;
-  },
-  remove: async (id: number) => {
-    const { data } = await apiClient.delete(`/tags/${id}`);
-    return data;
-  },
-};
+const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
+
+export async function getTags(params: Record<string, unknown> = {}) {
+  if (USE_MOCK) return mockTagsApi.list(params);
+  const res = await apiClient.get('/tags', { params });
+  return res.data;
+}
+
+export async function createTag(data: { name: string }) {
+  if (USE_MOCK) return mockTagsApi.create(data);
+  const res = await apiClient.post('/tags', data);
+  return res.data;
+}
+
+export async function deleteTag(id: number) {
+  if (USE_MOCK) return mockTagsApi.remove();
+  const res = await apiClient.delete(`/tags/${id}`);
+  return res.data;
+}

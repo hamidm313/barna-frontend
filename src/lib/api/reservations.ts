@@ -1,33 +1,28 @@
 import apiClient from './client';
-import { Reservation } from '@/types';
+import { mockReservationsApi } from '@/lib/mock';
 
-export interface CreateReservationPayload {
-  clothing_id: number;
-  start_date: string;
-  end_date: string;
-  guest_name?: string;
-  guest_email?: string;
-  guest_phone?: string;
-  shipping_address?: string;
-  notes?: string;
-  rules_accepted: boolean;
+const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
+
+export async function getReservations(params: Record<string, unknown> = {}) {
+  if (USE_MOCK) return mockReservationsApi.list(params);
+  const res = await apiClient.get('/reservations', { params });
+  return res.data;
 }
 
-export const reservationsApi = {
-  list: async (params?: { status?: string; page?: number; limit?: number }): Promise<Reservation[]> => {
-    const { data } = await apiClient.get('/reservations', { params });
-    return data;
-  },
-  getOne: async (id: number): Promise<Reservation> => {
-    const { data } = await apiClient.get(`/reservations/${id}`);
-    return data;
-  },
-  create: async (payload: CreateReservationPayload) => {
-    const { data } = await apiClient.post('/reservations', payload);
-    return data;
-  },
-  updateStatus: async (id: number, status: string, extra?: { tracking_number?: string; cleaning_fee?: number; shipping_fee?: number }) => {
-    const { data } = await apiClient.put(`/reservations/${id}/status`, { status, ...extra });
-    return data;
-  },
-};
+export async function getReservationById(id: number) {
+  if (USE_MOCK) return mockReservationsApi.getOne(id);
+  const res = await apiClient.get(`/reservations/${id}`);
+  return res.data;
+}
+
+export async function createReservation(data: Record<string, unknown>) {
+  if (USE_MOCK) return mockReservationsApi.create(data);
+  const res = await apiClient.post('/reservations', data);
+  return res.data;
+}
+
+export async function updateReservationStatus(id: number, status: string) {
+  if (USE_MOCK) return mockReservationsApi.updateStatus(id, status);
+  const res = await apiClient.patch(`/reservations/${id}/status`, { status });
+  return res.data;
+}

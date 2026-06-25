@@ -1,12 +1,16 @@
 import apiClient from './client';
+import { mockSettingsApi } from '@/lib/mock';
 
-export const settingsApi = {
-  getAll: async (): Promise<Record<string, { value: string; type: string; label: string; group: string }>> => {
-    const { data } = await apiClient.get('/settings');
-    return data;
-  },
-  update: async (settings: Record<string, string | number | boolean>) => {
-    const { data } = await apiClient.put('/settings', { settings });
-    return data;
-  },
-};
+const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
+
+export async function getSettings() {
+  if (USE_MOCK) return mockSettingsApi.getAll();
+  const res = await apiClient.get('/settings');
+  return res.data;
+}
+
+export async function updateSetting(key: string, value: string) {
+  if (USE_MOCK) return mockSettingsApi.update(key, value);
+  const res = await apiClient.put(`/settings/${key}`, { value });
+  return res.data;
+}

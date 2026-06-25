@@ -1,17 +1,22 @@
 import apiClient from './client';
-import { Request } from '@/types';
+import { mockRequestsApi } from '@/lib/mock';
 
-export const requestsApi = {
-  list: async (params?: { status?: string; type?: string; page?: number }): Promise<Request[]> => {
-    const { data } = await apiClient.get('/requests', { params });
-    return data;
-  },
-  create: async (payload: { type: string; subject?: string; message: string; clothing_id?: number; guest_name?: string; guest_email?: string; guest_phone?: string }) => {
-    const { data } = await apiClient.post('/requests', payload);
-    return data;
-  },
-  respond: async (id: number, admin_response: string, status?: string) => {
-    const { data } = await apiClient.put(`/requests/${id}/respond`, { admin_response, status });
-    return data;
-  },
-};
+const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
+
+export async function getRequests(params: Record<string, unknown> = {}) {
+  if (USE_MOCK) return mockRequestsApi.list(params);
+  const res = await apiClient.get('/requests', { params });
+  return res.data;
+}
+
+export async function createRequest(data: Record<string, unknown>) {
+  if (USE_MOCK) return mockRequestsApi.create(data);
+  const res = await apiClient.post('/requests', data);
+  return res.data;
+}
+
+export async function respondToRequest(id: number, response: string) {
+  if (USE_MOCK) return mockRequestsApi.respond(id, response);
+  const res = await apiClient.post(`/requests/${id}/respond`, { response });
+  return res.data;
+}

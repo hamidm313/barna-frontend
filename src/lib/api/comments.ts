@@ -1,21 +1,28 @@
 import apiClient from './client';
-import { Comment } from '@/types';
+import { mockCommentsApi } from '@/lib/mock';
 
-export const commentsApi = {
-  list: async (params?: { clothing_id?: number; status?: string; page?: number }): Promise<Comment[]> => {
-    const { data } = await apiClient.get('/comments', { params });
-    return data;
-  },
-  create: async (payload: { clothing_id: number; content: string; guest_name?: string; guest_email?: string; parent_id?: number }) => {
-    const { data } = await apiClient.post('/comments', payload);
-    return data;
-  },
-  updateStatus: async (id: number, status: 'approved' | 'rejected') => {
-    const { data } = await apiClient.put(`/comments/${id}/status`, { status });
-    return data;
-  },
-  remove: async (id: number) => {
-    const { data } = await apiClient.delete(`/comments/${id}`);
-    return data;
-  },
-};
+const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
+
+export async function getComments(params: Record<string, unknown> = {}) {
+  if (USE_MOCK) return mockCommentsApi.list(params);
+  const res = await apiClient.get('/comments', { params });
+  return res.data;
+}
+
+export async function createComment(data: Record<string, unknown>) {
+  if (USE_MOCK) return mockCommentsApi.create(data);
+  const res = await apiClient.post('/comments', data);
+  return res.data;
+}
+
+export async function updateCommentStatus(id: number, status: string) {
+  if (USE_MOCK) return mockCommentsApi.updateStatus(id, status);
+  const res = await apiClient.patch(`/comments/${id}/status`, { status });
+  return res.data;
+}
+
+export async function deleteComment(id: number) {
+  if (USE_MOCK) return mockCommentsApi.remove();
+  const res = await apiClient.delete(`/comments/${id}`);
+  return res.data;
+}

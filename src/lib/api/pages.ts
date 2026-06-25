@@ -1,17 +1,22 @@
 import apiClient from './client';
-import { Page } from '@/types';
+import { mockPagesApi } from '@/lib/mock';
 
-export const pagesApi = {
-  list: async (): Promise<Page[]> => {
-    const { data } = await apiClient.get('/pages');
-    return data;
-  },
-  getOne: async (slug: string): Promise<Page> => {
-    const { data } = await apiClient.get(`/pages/${slug}`);
-    return data;
-  },
-  upsert: async (slug: string, payload: Partial<Page>) => {
-    const { data } = await apiClient.put(`/pages/${slug}`, payload);
-    return data;
-  },
-};
+const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
+
+export async function getPages(params: Record<string, unknown> = {}) {
+  if (USE_MOCK) return mockPagesApi.list(params);
+  const res = await apiClient.get('/pages', { params });
+  return res.data;
+}
+
+export async function getPageBySlug(slug: string) {
+  if (USE_MOCK) return mockPagesApi.getOne(slug);
+  const res = await apiClient.get(`/pages/${slug}`);
+  return res.data;
+}
+
+export async function upsertPage(slug: string, data: Record<string, unknown>) {
+  if (USE_MOCK) return mockPagesApi.upsert(slug, data);
+  const res = await apiClient.put(`/pages/${slug}`, data);
+  return res.data;
+}

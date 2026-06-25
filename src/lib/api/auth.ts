@@ -1,29 +1,34 @@
 import apiClient from './client';
-import { User } from '@/types';
+import { mockAuth } from '@/lib/mock';
 
-export interface LoginPayload { email: string; password: string; }
-export interface RegisterPayload { name: string; email: string; password: string; phone?: string; }
-export interface AuthResponse { token: string; user: User; }
+const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
 
-export const authApi = {
-  login: async (payload: LoginPayload): Promise<AuthResponse> => {
-    const { data } = await apiClient.post('/auth/login', payload);
-    return data;
-  },
-  register: async (payload: RegisterPayload): Promise<AuthResponse> => {
-    const { data } = await apiClient.post('/auth/register', payload);
-    return data;
-  },
-  me: async (): Promise<User> => {
-    const { data } = await apiClient.get('/auth/me');
-    return data;
-  },
-  updateProfile: async (payload: { name: string; phone?: string }) => {
-    const { data } = await apiClient.put('/auth/profile', payload);
-    return data;
-  },
-  changePassword: async (payload: { oldPassword: string; newPassword: string }) => {
-    const { data } = await apiClient.put('/auth/change-password', payload);
-    return data;
-  },
-};
+export async function login(email: string, password: string) {
+  if (USE_MOCK) return mockAuth.login(email);
+  const res = await apiClient.post('/auth/login', { email, password });
+  return res.data;
+}
+
+export async function register(data: { name: string; email: string; password: string; phone?: string }) {
+  if (USE_MOCK) return mockAuth.register(data as Record<string, string>);
+  const res = await apiClient.post('/auth/register', data);
+  return res.data;
+}
+
+export async function getMe() {
+  if (USE_MOCK) return mockAuth.me();
+  const res = await apiClient.get('/auth/me');
+  return res.data;
+}
+
+export async function updateProfile(data: { name?: string; phone?: string }) {
+  if (USE_MOCK) return mockAuth.updateProfile(data as Record<string, string>);
+  const res = await apiClient.put('/auth/profile', data);
+  return res.data;
+}
+
+export async function changePassword(data: { current_password: string; new_password: string }) {
+  if (USE_MOCK) return mockAuth.changePassword();
+  const res = await apiClient.put('/auth/password', data);
+  return res.data;
+}
