@@ -5,7 +5,7 @@ import { Grid, TextField, MenuItem, FormControlLabel, Switch, Box, Typography, C
 import { useQuery } from '@tanstack/react-query';
 import { getEthnicGroups } from '@/lib/api/ethnicGroups';
 import { getTags } from '@/lib/api/tags';
-import { Clothing } from '@/types';
+import { Clothing, ClothingCategory, ClothingGender, ClothingCondition } from '@/types';
 
 interface ClothingFormProps {
   initialData?: Partial<Clothing>;
@@ -13,9 +13,26 @@ interface ClothingFormProps {
   loading?: boolean;
 }
 
-const categories = ['لباس سنتی', 'لباس رسمی', 'لباس عروسی', 'لباس روزمره', 'اکسسوری', 'فیوژن', 'مدرن'];
-const genders = [{ v: 'male', l: 'مردانه' }, { v: 'female', l: 'زنانه' }, { v: 'unisex', l: 'یونیسکس' }, { v: 'kids', l: 'بچگانه' }];
-const conditions = [{ v: 'new', l: 'نو' }, { v: 'excellent', l: 'عالی' }, { v: 'good', l: 'خوب' }, { v: 'fair', l: 'متوسط' }];
+const categories: { v: ClothingCategory; l: string }[] = [
+  { v: 'traditional', l: 'سنتی' },
+  { v: 'modern', l: 'مدرن' },
+  { v: 'fusion', l: 'تلفیقی' },
+  { v: 'barna_design', l: 'طرح برنا' },
+  { v: 'wardrobe', l: 'کمد لباس' },
+];
+
+const genders: { v: ClothingGender; l: string }[] = [
+  { v: 'male', l: 'مردانه' },
+  { v: 'female', l: 'زنانه' },
+  { v: 'unisex', l: 'یونیسکس' },
+  { v: 'child', l: 'بچگانه' },
+];
+
+const conditions: { v: ClothingCondition; l: string }[] = [
+  { v: 'excellent', l: 'عالی' },
+  { v: 'good', l: 'خوب' },
+  { v: 'fair', l: 'متوسط' },
+];
 
 export default function ClothingForm({ initialData, onSubmit, loading }: ClothingFormProps) {
   const [form, setForm] = useState<Partial<Clothing>>(initialData || { gender: 'female', status: 'available', images: [] });
@@ -44,19 +61,19 @@ export default function ClothingForm({ initialData, onSubmit, loading }: Clothin
   return (
     <Box component="form" onSubmit={handleSubmit}>
       <Grid container spacing={2.5}>
-        <Grid item xs={12} md={6}><TextField fullWidth required label="عنوان" value={form.title || ''} onChange={e => set('title', e.target.value)} sx={sx} /></Grid>
+        <Grid item xs={12} md={6}><TextField fullWidth required label="عنوان" value={form.name || ''} onChange={e => set('name', e.target.value)} sx={sx} /></Grid>
         <Grid item xs={12} md={6}>
           <TextField select fullWidth required label="گروه قومی" value={form.ethnic_group_id || ''} onChange={e => set('ethnic_group_id', Number(e.target.value))} sx={sx}>
             {(groups?.data || []).map((g: { id: number; name: string }) => <MenuItem key={g.id} value={g.id} sx={{ fontFamily: 'Vazirmatn, sans-serif' }}>{g.name}</MenuItem>)}
           </TextField>
         </Grid>
         <Grid item xs={12} md={4}>
-          <TextField select fullWidth required label="دسته‌بندی" value={form.category || ''} onChange={e => set('category', e.target.value)} sx={sx}>
-            {categories.map(c => <MenuItem key={c} value={c} sx={{ fontFamily: 'Vazirmatn, sans-serif' }}>{c}</MenuItem>)}
+          <TextField select fullWidth required label="دسته‌بندی" value={form.category || ''} onChange={e => set('category', e.target.value as ClothingCategory)} sx={sx}>
+            {categories.map(c => <MenuItem key={c.v} value={c.v} sx={{ fontFamily: 'Vazirmatn, sans-serif' }}>{c.l}</MenuItem>)}
           </TextField>
         </Grid>
         <Grid item xs={12} md={4}>
-          <TextField select fullWidth required label="جنسیت" value={form.gender || 'female'} onChange={e => set('gender', e.target.value)} sx={sx}>
+          <TextField select fullWidth required label="جنسیت" value={form.gender || 'female'} onChange={e => set('gender', e.target.value as ClothingGender)} sx={sx}>
             {genders.map(g => <MenuItem key={g.v} value={g.v} sx={{ fontFamily: 'Vazirmatn, sans-serif' }}>{g.l}</MenuItem>)}
           </TextField>
         </Grid>
@@ -67,9 +84,9 @@ export default function ClothingForm({ initialData, onSubmit, loading }: Clothin
         </Grid>
         <Grid item xs={12} md={3}><TextField fullWidth label="سایز" value={form.size || ''} onChange={e => set('size', e.target.value)} sx={sx} /></Grid>
         <Grid item xs={12} md={3}><TextField fullWidth label="رنگ" value={form.color || ''} onChange={e => set('color', e.target.value)} sx={sx} /></Grid>
-        <Grid item xs={12} md={3}><TextField fullWidth label="جنس پارچه" value={form.fabric || ''} onChange={e => set('fabric', e.target.value)} sx={sx} /></Grid>
+        <Grid item xs={12} md={3}><TextField fullWidth label="جنس پارچه" value={form.material || ''} onChange={e => set('material', e.target.value)} sx={sx} /></Grid>
         <Grid item xs={12} md={3}>
-          <TextField select fullWidth label="وضعیت کالا" value={form.condition || ''} onChange={e => set('condition', e.target.value)} sx={sx}>
+          <TextField select fullWidth label="وضعیت کالا" value={form.condition_status || ''} onChange={e => set('condition_status', e.target.value as ClothingCondition)} sx={sx}>
             {conditions.map(c => <MenuItem key={c.v} value={c.v} sx={{ fontFamily: 'Vazirmatn, sans-serif' }}>{c.l}</MenuItem>)}
           </TextField>
         </Grid>
