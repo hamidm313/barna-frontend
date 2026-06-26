@@ -11,7 +11,14 @@ export const apiClient = axios.create({
 apiClient.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   if (typeof window !== 'undefined') {
     const token = localStorage.getItem('barna_token');
+    const language = localStorage.getItem('barna_locale') || 'fa';
     if (token) config.headers.Authorization = `Bearer ${token}`;
+    config.headers['Accept-Language'] = language;
+    config.headers['X-Language'] = language;
+    config.params = { ...(config.params || {}), language };
+    if (config.data && typeof config.data === 'object' && !(config.data instanceof FormData)) {
+      config.data = { ...config.data, language };
+    }
   }
   return config;
 });

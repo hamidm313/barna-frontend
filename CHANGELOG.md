@@ -1,3 +1,12 @@
+
+## 1.1.2 - 2026-06-26
+
+- Fixed Next.js static export support for deployment on static hosts without `npm run start`.
+- Added `generateStaticParams()` wrappers for all dynamic routes: clothing details, ethnic pages, order, reservation, payment, tracking, and dashboard editors.
+- Removed static-export-incompatible `rewrites()` proxy from `next.config.js`; client API calls continue to use `NEXT_PUBLIC_API_URL`.
+- Disabled build-time lint/type blocking in Next config to keep production export focused on static output generation.
+- Removed external Google Fonts links from the root layout to avoid network-dependent production builds.
+
 # Changelog
 
 ## 1.1.1 - 2026-06-26

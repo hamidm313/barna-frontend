@@ -45,7 +45,7 @@ function SidebarContent({ drawerWidth }: { drawerWidth: number }) {
   const router = useRouter();
 
   return (
-    <Box sx={{ width: drawerWidth, height: '100%', bgcolor: '#1E2A4A', color: 'white', display: 'flex', flexDirection: 'column' }}>
+    <Box dir="rtl" sx={{ width: drawerWidth, height: '100%', bgcolor: '#1E2A4A', color: 'white', display: 'flex', flexDirection: 'column' }}>
       <Box sx={{ p: 2.5, borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
         <Typography variant="h6" sx={{ fontFamily: 'Vazirmatn, sans-serif', color: '#C9A84C', fontWeight: 700, fontSize: '1.1rem' }}>
           مزون برنا ایران
@@ -69,7 +69,7 @@ function SidebarContent({ drawerWidth }: { drawerWidth: number }) {
                   color: isActive ? '#C9A84C' : 'rgba(255,255,255,0.8)',
                 }}
               >
-                <ListItemIcon sx={{ minWidth: 36, color: 'inherit' }}>{item.icon}</ListItemIcon>
+                <ListItemIcon sx={{ minWidth: 36, color: 'inherit', '& svg': { color: 'currentColor' } }}>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.label} primaryTypographyProps={{ fontFamily: 'Vazirmatn, sans-serif', fontSize: '0.875rem' }} />
               </ListItemButton>
             </ListItem>
@@ -84,11 +84,11 @@ export default function Sidebar({ drawerWidth, mobileOpen, onMobileClose }: Side
   return (
     <Box component="nav" sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}>
       <Drawer variant="temporary" anchor="right" open={mobileOpen} onClose={onMobileClose} ModalProps={{ keepMounted: true }}
-        sx={{ display: { xs: 'block', md: 'none' }, '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box' } }}>
+        sx={{ display: { xs: 'block', md: 'none' }, '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box', right: 0, left: 'auto' } }}>
         <SidebarContent drawerWidth={drawerWidth} />
       </Drawer>
       <Drawer variant="permanent" anchor="right"
-        sx={{ display: { xs: 'none', md: 'block' }, '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box', border: 'none' } }}
+        sx={{ display: { xs: 'none', md: 'block' }, '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box', border: 'none', right: 0, left: 'auto' } }}
         open>
         <SidebarContent drawerWidth={drawerWidth} />
       </Drawer>

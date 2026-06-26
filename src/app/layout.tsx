@@ -19,9 +19,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="fa" dir="rtl">
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({ '@context': 'https://schema.org', '@type': 'ClothingStore', name: 'برنا مزون ایران', image: '/images/logo/barna-logo.jpg', description: 'فروش، امانت، اجاره و طراحی لباس محلی اقوام ایران', areaServed: 'Iran', sameAs: ['https://instagram.com/barna'] }) }} />
       </head>
       <body className="font-fa bg-barna-bg text-barna-dark antialiased">

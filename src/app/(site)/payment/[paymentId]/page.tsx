@@ -1,8 +1,7 @@
-import { mockClothing } from '@/lib/mock/data';
 import ClientPage from './ClientPage';
 
 export function generateStaticParams() {
-  return mockClothing.map((item) => ({ clothingId: String(item.id) }));
+  return [{ paymentId: 'online-order' }, { paymentId: 'reservation-deposit' }];
 }
 
 export default function Page() {

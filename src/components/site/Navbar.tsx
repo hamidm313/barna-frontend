@@ -12,6 +12,7 @@ export default function Navbar() {
   const { locale, setLocale } = useSiteTheme();
   const { t } = useTranslation();
   const router = useRouter();
+  const nextLocale = locale === 'fa' ? 'en' : locale === 'en' ? 'fr' : 'fa';
 
   const navLinks = [
     { href: '/', label: t('nav.home') },
@@ -44,8 +45,8 @@ export default function Navbar() {
 
           {/* Actions */}
           <div className="flex items-center gap-3">
-            <button onClick={() => setLocale(locale === 'fa' ? 'en' : 'fa')} className="text-xs border border-gray-200 rounded-full px-3 py-1 text-barna-gray hover:border-primary-300 transition-colors">
-              {locale === 'fa' ? 'EN' : 'FA'}
+            <button onClick={() => setLocale(nextLocale)} className="text-xs border border-gray-200 rounded-full px-3 py-1 text-barna-gray hover:border-primary-300 transition-colors uppercase">
+              {nextLocale}
             </button>
             {isAuthenticated ? (
               <div className="flex items-center gap-2">

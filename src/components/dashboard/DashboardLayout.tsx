@@ -27,13 +27,14 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   };
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#f5f5f5' }}>
+    <Box dir="rtl" sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#f5f5f5', direction: 'rtl' }}>
       <CssBaseline />
       <AppBar
         position="fixed"
         sx={{
           width: { md: `calc(100% - ${DRAWER_WIDTH}px)` },
-          mr: { md: `${DRAWER_WIDTH}px` },
+          right: { md: `${DRAWER_WIDTH}px` },
+          left: 0,
           bgcolor: '#1E2A4A',
           boxShadow: 1,
         }}
@@ -67,7 +68,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         </Toolbar>
       </AppBar>
       <Sidebar drawerWidth={DRAWER_WIDTH} mobileOpen={mobileOpen} onMobileClose={() => setMobileOpen(false)} />
-      <Box component="main" sx={{ flexGrow: 1, p: 3, width: { md: `calc(100% - ${DRAWER_WIDTH}px)` }, mt: '64px' }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, width: { md: `calc(100% - ${DRAWER_WIDTH}px)` }, mt: '64px', direction: 'rtl', textAlign: 'right' }}>
         {children}
       </Box>
     </Box>

@@ -23,8 +23,8 @@ const defaultTheme: ThemeSettings = {
 const ThemeContext = createContext<{
   theme: ThemeSettings;
   dir: 'rtl' | 'ltr';
-  locale: 'fa' | 'en';
-  setLocale: (l: 'fa' | 'en') => void;
+  locale: 'fa' | 'en' | 'fr';
+  setLocale: (l: 'fa' | 'en' | 'fr') => void;
 }>({ theme: defaultTheme, dir: 'rtl', locale: 'fa', setLocale: () => {} });
 
 function makeEmotionCache(dir: 'rtl' | 'ltr') {
@@ -35,7 +35,13 @@ function makeEmotionCache(dir: 'rtl' | 'ltr') {
 }
 
 export function AppThemeProvider({ children, themeData }: { children: React.ReactNode; themeData?: Partial<ThemeSettings> }) {
-  const [locale, setLocale] = useState<'fa' | 'en'>('fa');
+  const [locale, setLocale] = useState<'fa' | 'en' | 'fr'>('fa');
+
+  useEffect(() => {
+    const saved = localStorage.getItem('barna_locale') as 'fa' | 'en' | 'fr' | null;
+    if (saved === 'fa' || saved === 'en' || saved === 'fr') setLocale(saved);
+  }, []);
+
   const theme = { ...defaultTheme, ...themeData } as ThemeSettings;
   const dir = locale === 'fa' ? 'rtl' : 'ltr';
 
@@ -55,6 +61,7 @@ export function AppThemeProvider({ children, themeData }: { children: React.Reac
   useEffect(() => {
     document.documentElement.setAttribute('dir', dir);
     document.documentElement.setAttribute('lang', locale);
+    localStorage.setItem('barna_locale', locale);
     document.documentElement.style.setProperty('--color-primary', theme.color_primary);
     document.documentElement.style.setProperty('--color-accent', theme.color_accent);
     document.documentElement.style.setProperty('--color-background', theme.color_background);

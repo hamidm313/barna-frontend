@@ -1,1 +1,7 @@
-{ "version": "1.1.0", "releaseDate": "2026-06-26", "name": "Barna Mezon mock frontend refresh" }
+{
+  "version": "1.1.2",
+  "releaseDate": "2026-06-26",
+  "name": "Barna Mezon multilingual reservation and payment mock",
+  "build": "static-export-fix",
+  "date": "2026-06-26"
+}
