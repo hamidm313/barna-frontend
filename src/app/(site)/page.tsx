@@ -11,86 +11,32 @@ import EthnicGroupCard from '@/components/site/EthnicGroupCard';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import { useTranslation } from '@/lib/i18n';
 
+const services = [
+  ['🛍️', 'فروش آنلاین', 'خرید لباس اصیل، تلفیقی و طرح‌های اختصاصی برنا با اطلاعات ارسال و لینک پیگیری.'],
+  ['🤝', 'امانت و اجاره', 'رزرو روز و ساعت، تایید قوانین، بیعانه، محاسبه کرایه، خشکشویی و ارسال.'],
+  ['✂️', 'طراحی و بازطراحی', 'زنده‌سازی لباس‌های قدیمی خانوادگی در کمد لباس برنا با عکس قبل و بعد.'],
+  ['🎭', 'ایونت و فرهنگ‌سازی', 'برگزاری رویدادهای بعد از سفرها برای معرفی لباس‌های ایرانی و تلفیق با مدرنیته.'],
+];
+
+const partners = ['فروشگاه‌های اکسسوری سنتی', 'پارچه‌فروشی‌های سراسر کشور', 'آتلیه‌های عکاسی', 'طلافروشی‌ها', 'میکاپ‌آرتیست‌ها', 'هنرمندان و خیاطان محلی'];
+
 export default function HomePage() {
   const { t } = useTranslation();
-  const { data: featured } = useQuery({
-    queryKey: queryKeys.clothing.list({ is_featured: true, limit: 6 }),
-    queryFn: () => clothingApi.list({ is_featured: true, limit: 6 }),
-  });
-  const { data: ethnicGroups } = useQuery({
-    queryKey: queryKeys.ethnicGroups.list(),
-    queryFn: () => ethnicGroupsApi.list(),
-  });
+  const { data: featured } = useQuery({ queryKey: queryKeys.clothing.list({ is_featured: true, limit: 6 }), queryFn: () => clothingApi.list({ is_featured: true, limit: 6 }) });
+  const { data: ethnicGroups } = useQuery({ queryKey: queryKeys.ethnicGroups.list(), queryFn: () => ethnicGroupsApi.list() });
+  const ethnicList = Array.isArray(ethnicGroups) ? ethnicGroups : ethnicGroups?.data || [];
 
   return (
     <>
       <HeroSection />
-
-      {/* Ethnic groups */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="text-center mb-10">
-          <h2 className="section-title">{t('home.ethnicSection')}</h2>
-          <p className="section-subtitle">{t('home.ethnicSubtitle')}</p>
-        </div>
-        {!ethnicGroups ? <LoadingSpinner className="h-32" /> : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {ethnicGroups.map((g: EthnicGroup) => <EthnicGroupCard key={g.id} group={g} />)}
-          </div>
-        )}
-        <div className="text-center mt-8">
-          <Link href="/ethnic" className="btn-outline">{t('home.viewAllEthnic')}</Link>
-        </div>
+        <div className="text-center mb-10"><h2 className="section-title">برای هر لباس، یک روایت جدا</h2><p className="section-subtitle">ترکی، لری، جمی، ترکمن، بندری، کردی، عربی، مدرن، تلفیق و طرح‌های اختصاصی برنا</p></div>
+        {!ethnicGroups ? <LoadingSpinner className="h-32" /> : <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">{ethnicList.map((g: EthnicGroup) => <EthnicGroupCard key={g.id} group={g} />)}</div>}
       </section>
-
-      {/* Featured clothing */}
-      <section className="bg-barna-cream py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
-            <h2 className="section-title">{t('home.featuredSection')}</h2>
-            <p className="section-subtitle">{t('home.featuredSubtitle')}</p>
-          </div>
-          {!featured ? <LoadingSpinner className="h-48" /> : (
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-              {featured.data?.map((c: Clothing) => <ClothingCard key={c.id} clothing={c} compact />)}
-            </div>
-          )}
-          <div className="text-center mt-8">
-            <Link href="/clothing" className="btn-primary">{t('home.viewAllClothing')}</Link>
-          </div>
-        </div>
-      </section>
-
-      {/* About teaser */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="bg-barna-dark rounded-2xl p-10 md:p-16 text-center text-white">
-          <h2 className="text-3xl font-bold text-primary-400 mb-4">{t('home.storyTitle')}</h2>
-          <p className="text-gray-300 leading-8 max-w-2xl mx-auto text-lg mb-8">{t('home.storyText')}</p>
-          <Link href="/story" className="btn-primary">{t('home.readMore')}</Link>
-        </div>
-      </section>
-
-      {/* Services */}
-      <section className="bg-barna-cream py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
-            <h2 className="section-title">{t('home.servicesTitle')}</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {[
-              { icon: '🛍️', title: t('home.serviceSale'), desc: t('home.serviceSaleDesc') },
-              { icon: '🤝', title: t('home.serviceRent'), desc: t('home.serviceRentDesc') },
-              { icon: '✂️', title: t('home.serviceDesign'), desc: t('home.serviceDesignDesc') },
-              { icon: '🪡', title: t('home.serviceRestore'), desc: t('home.serviceRestoreDesc') },
-            ].map(s => (
-              <div key={s.title} className="card p-6 text-center hover:border-primary-200 border border-transparent">
-                <div className="text-4xl mb-3">{s.icon}</div>
-                <h3 className="font-bold text-barna-dark mb-2">{s.title}</h3>
-                <p className="text-barna-gray text-sm">{s.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <section className="bg-barna-cream py-16"><div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div className="text-center mb-10"><h2 className="section-title">لباس‌های ویژه برای فروش، امانت و اجاره</h2><p className="section-subtitle">داده‌های نمونه برای نسخه mock، آماده اتصال به API و CMS</p></div>{!featured ? <LoadingSpinner className="h-48" /> : <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">{featured.data?.map((c: Clothing) => <ClothingCard key={c.id} clothing={c} compact />)}</div>}<div className="text-center mt-8"><Link href="/clothing" className="btn-primary">{t('home.viewAllClothing')}</Link></div></div></section>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16"><div className="grid md:grid-cols-4 gap-6">{services.map(([icon,title,desc]) => <div key={title} className="card p-6 hover:-translate-y-1 transition"><div className="text-4xl mb-4">{icon}</div><h3 className="font-bold text-barna-dark mb-3">{title}</h3><p className="text-sm leading-7 text-barna-gray">{desc}</p></div>)}</div></section>
+      <section className="bg-barna-dark py-16 text-white"><div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-10 items-center"><div><h2 className="text-3xl font-black text-primary-400 mb-5">هدف برنا؛ ماندگاری لباس اقوام ایران</h2><p className="leading-9 text-gray-300">برنا با تحقیقات میدانی، سفرهای هدفمند پیج سفری، همکاری با افراد محلی و طراحی اقتصادی تلاش می‌کند لباس اقوام ایران فراموش نشود و برای همه سلیقه‌ها قابل استفاده باشد.</p></div><div className="grid grid-cols-2 gap-3">{partners.map(p => <span key={p} className="rounded-full bg-white/10 border border-white/10 px-4 py-3 text-center text-sm">{p}</span>)}</div></div></section>
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16"><div className="rounded-[2rem] bg-white border border-primary-100 shadow-sm p-8 md:p-12 text-center"><h2 className="section-title">سه مرجع الهام برای مزون آنلاین</h2><p className="section-subtitle">ساختار از بهترین الگوهای boutique ecommerce، rental wardrobe و editorial storytelling الهام گرفته شده و در قالب مستقل برنا پیاده‌سازی شده است.</p><div className="grid md:grid-cols-3 gap-4 mt-8">{['Rent the Runway: رزرو و اجاره', 'Moda Operandi: تجربه لوکس و editorial', 'Etsy: جامعه هنرمندان و محصولات دست‌ساز'].map(x => <div key={x} className="rounded-2xl bg-barna-cream p-5 font-semibold text-barna-dark">{x}</div>)}</div></div></section>
     </>
   );
 }

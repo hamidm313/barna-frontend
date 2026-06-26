@@ -46,7 +46,7 @@ export const mockClothingApi = {
     if (params.category) items = items.filter(c => c.category === params.category);
     if (params.gender) items = items.filter(c => c.gender === params.gender);
     if (params.status) items = items.filter(c => c.status === params.status);
-    if (params.featured) items = items.filter(c => c.is_featured);
+    if (params.featured || params.is_featured) items = items.filter(c => c.is_featured);
     return paginate(items, Number(params.page) || 1, Number(params.limit) || 10);
   },
   getOne: async (id: number) => { await delay(100); return { data: mockClothing.find(c => c.id === id) || mockClothing[0] }; },
@@ -59,7 +59,7 @@ export const mockClothingApi = {
 export const mockEthnicGroupsApi = {
   list: async (params: Record<string, unknown> = {}) => {
     await delay();
-    return paginate(mockEthnicGroups, Number(params.page) || 1, Number(params.limit) || 20);
+    return { data: mockEthnicGroups };
   },
   getOne: async (slug: string) => {
     await delay(100);

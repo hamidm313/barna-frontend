@@ -1,8 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1100" viewBox="0 0 900 1100" role="img" aria-label="طرح برنا">
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1100" viewBox="0 0 900 1100" role="img" aria-label="سفرهای برنا">
  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1b263b"/><stop offset="1" stop-color="#c9a84c"/></linearGradient><pattern id="p" width="56" height="56" patternUnits="userSpaceOnUse"><path d="M28 2 54 28 28 54 2 28Z" fill="none" stroke="rgba(255,255,255,.28)" stroke-width="3"/><circle cx="28" cy="28" r="5" fill="rgba(255,255,255,.32)"/></pattern><filter id="sh"><feDropShadow dx="0" dy="18" stdDeviation="16" flood-opacity=".25"/></filter></defs>
  <rect width="900" height="1100" rx="56" fill="url(#g)"/><rect width="900" height="1100" fill="url(#p)" opacity=".55"/>
  <circle cx="720" cy="160" r="190" fill="rgba(255,255,255,.12)"/><circle cx="120" cy="900" r="240" fill="rgba(0,0,0,.1)"/>
  <g filter="url(#sh)"><path d="M455 190c-70 82-124 194-116 312 8 130-89 213-161 308 148-41 288-120 316-292 15-93 19-198-39-328Z" fill="rgba(255,255,255,.87)"/><path d="M513 382c92-5 164 53 169 147 7 118-87 190-214 179V393c15-6 30-10 45-11Z" fill="rgba(255,255,255,.74)"/><path d="M402 242c52-48 101-40 130-5 28 35 20 84-16 115-46 39-102 17-125-20" fill="none" stroke="rgba(255,255,255,.88)" stroke-width="31" stroke-linecap="round"/></g>
  <rect x="120" y="830" width="660" height="150" rx="30" fill="rgba(255,255,255,.88)"/>
- <text x="450" y="902" text-anchor="middle" font-family="Tahoma, Arial" font-size="54" font-weight="700" fill="#1b263b">طرح برنا</text><text x="450" y="948" text-anchor="middle" font-family="Tahoma, Arial" font-size="30" fill="#555">فیوژن</text>
+ <text x="450" y="902" text-anchor="middle" font-family="Tahoma, Arial" font-size="54" font-weight="700" fill="#1b263b">سفرهای برنا</text><text x="450" y="948" text-anchor="middle" font-family="Tahoma, Arial" font-size="30" fill="#555">گزارش تصویری</text>
  </svg>

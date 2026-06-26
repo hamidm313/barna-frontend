@@ -19,6 +19,7 @@ export default function Navbar() {
     { href: '/clothing', label: t('nav.clothing') },
     { href: '/community', label: t('nav.community') },
     { href: '/about', label: t('nav.story') },
+    { href: '/contact', label: t('nav.contact') },
   ];
 
   return (
@@ -27,7 +28,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <span className="text-2xl font-bold text-primary-600 font-en">B</span>
+            <img src="/images/logo/barna-logo.jpg" alt="Barna Mezon logo" className="h-11 w-11 rounded-full object-cover border border-primary-200" />
             <div className="leading-tight">
               <div className="text-sm font-bold text-barna-dark">مزون برنا</div>
               <div className="text-xs text-barna-gray">لباس اقوام ایران</div>

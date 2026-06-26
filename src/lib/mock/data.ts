@@ -11,7 +11,7 @@ export const mockEthnicGroups: EthnicGroup[] = [
   { id: 1, uuid: 'uuid-eg-1', display_name: 'آذری', slug: 'azari', description: 'پوشاک سنتی و رنگارنگ مردم آذربایجان با نقوش هندسی زیبا و رنگ‌های شاد', image: '/images/ethnic/azari.svg', display_order: 1, is_active: true },
   { id: 2, uuid: 'uuid-eg-2', display_name: 'لری', slug: 'lori', description: 'لباس‌های بومی استان‌های لرستان و چهارمحال با پارچه‌های دستباف و رنگ‌های طبیعی', image: '/images/ethnic/lori.svg', display_order: 2, is_active: true },
   { id: 3, uuid: 'uuid-eg-3', display_name: 'کردی', slug: 'kurdi', description: 'جامه‌های رنگین کردستان و کرمانشاه با گلدوزی‌های دستی بی‌نظیر', image: '/images/ethnic/kurdi.svg', display_order: 3, is_active: true },
-  { id: 4, uuid: 'uuid-eg-4', display_name: 'بوشهری', slug: 'bushehri', description: 'پوشاک گرمسیری استان بوشهر با طرح‌های دریایی و پارچه‌های سبک', image: '/images/ethnic/bushehri.svg', display_order: 4, is_active: true },
+  { id: 4, uuid: 'uuid-eg-4', display_name: 'جمی', slug: 'jami', description: 'پوشاک محلی منطقه جم و جنوب فارس با پارچه‌های سبک، رنگ‌های گرم و جزئیات بومی', image: '/images/ethnic/jami.svg', display_order: 4, is_active: true },
   { id: 5, uuid: 'uuid-eg-5', display_name: 'ترکمن', slug: 'turkmen', description: 'لباس‌های جلفا و گرگان با نقوش ابریشمی و رنگ‌های گرم', image: '/images/ethnic/turkmen.svg', display_order: 5, is_active: true },
   { id: 6, uuid: 'uuid-eg-6', display_name: 'بندری', slug: 'bandari', description: 'جامه‌های مخصوص بنادر جنوبی با برقع و دامن‌های چین‌دار رنگارنگ', image: '/images/ethnic/bandari.svg', display_order: 6, is_active: true },
   { id: 7, uuid: 'uuid-eg-7', display_name: 'عربی', slug: 'arabi', description: 'پوشاک سنتی عرب‌های خوزستان و هرمزگان با دشداشه و عبا', image: '/images/ethnic/arabi.svg', display_order: 7, is_active: true },
@@ -108,7 +108,7 @@ export const mockClothing: Clothing[] = [
     condition_status: 'good',
     rental_price_per_day: 65000, deposit_amount: 350000,
     status: 'available', is_featured: false, is_for_rent: true, is_for_sale: false, view_count: 0,
-    images: ['/images/ethnic/bushehri.svg'],
+    images: ['/images/ethnic/jami.svg'],
     description: 'لباس سبک بوشهری با نقوش موج دریا مناسب برای مناطق گرمسیری.',
     created_at: '2024-03-15T00:00:00Z',
   },
@@ -186,12 +186,12 @@ export const mockMedia: MediaItem[] = [
   { id: 5, filename: 'turkmen-1.svg', original_name: 'ترکمن.svg', url: '/images/clothing/turkmen-orange.svg', cdn_provider: 'local', size: 321000, mime_type: 'image/svg+xml', tags: ['ترکمن'], created_at: '2024-03-01T00:00:00Z', type: 'image' },
   { id: 6, filename: 'barna-fusion-1.svg', original_name: 'فیوژن برنا.svg', url: '/images/clothing/barna-modern-dark.svg', cdn_provider: 'local', size: 289000, mime_type: 'image/svg+xml', tags: ['برنا', 'فیوژن', 'مدرن'], created_at: '2024-03-10T00:00:00Z', type: 'image' },
   { id: 7, filename: 'arabic-1.svg', original_name: 'دشداشه عربی.svg', url: '/images/clothing/arabi-sand.svg', cdn_provider: 'local', size: 234000, mime_type: 'image/svg+xml', tags: ['عربی'], created_at: '2024-03-20T00:00:00Z', type: 'image' },
-  { id: 8, filename: 'bushehri-1.svg', original_name: 'بوشهری.svg', url: '/images/ethnic/bushehri.svg', cdn_provider: 'local', size: 267000, mime_type: 'image/svg+xml', tags: ['بوشهری', 'جنوب'], created_at: '2024-04-01T00:00:00Z', type: 'image' },
+  { id: 8, filename: 'jami-1.svg', original_name: 'جمی.svg', url: '/images/ethnic/jami.svg', cdn_provider: 'local', size: 267000, mime_type: 'image/svg+xml', tags: ['جمی', 'جنوب'], created_at: '2024-04-01T00:00:00Z', type: 'image' },
 ];
 
 export const mockPages: Page[] = [
-  { id: 1, uuid: 'uuid-page-1', display_name: 'درباره ما', slug: 'about', content: '<h2>داستان مزون برنا ایران</h2><p>مزون برنا ایران در سال ۱۳۹۸ با هدف حفظ و احیای میراث پوشاک سنتی اقوام ایرانی تأسیس شد.</p><h3>ارزش‌های ما</h3><ul><li>احترام به سنت و میراث فرهنگی</li><li>کیفیت در دوخت و پارچه</li><li>دسترسی آسان به پوشاک اقوام</li><li>حمایت از هنرمندان بومی</li></ul>', meta_description: 'آشنایی با مزون برنا ایران', is_published: true, updated_at: '2024-01-01T00:00:00Z' },
-  { id: 2, uuid: 'uuid-page-2', display_name: 'داستان برنا', slug: 'story', content: '<h2>از ایده تا واقعیت</h2><p>ایده تأسیس برنا از یک سفر به کردستان شروع شد.</p><p>۵۰۰+ طرح ثبت شده | ۸ گروه قومی | ۱۰۰۰+ مشتری راضی | ۵ سال تجربه</p>', meta_description: 'داستان برنا', is_published: true, updated_at: '2024-01-01T00:00:00Z' },
+  { id: 1, uuid: 'uuid-page-1', display_name: 'درباره ما', slug: 'about', content: '<h2>داستان مزون برنا ایران</h2><p>مزون برنا ایران با سفرهای هدفمند، گفت‌وگو با افراد محلی، خرید از هنرمندان بومی و مستندسازی پارچه، اکسسوری و روایت پوشاک شکل گرفت. هدف برنا فروش، امانت، اجاره، طراحی لباس قدیمی و ساختن فضایی دوستانه برای گفت‌وگو و انتشار عکس‌های محلی با تایید ادمین است.</p><h3>ارزش‌های ما</h3><ul><li>احترام به سنت و میراث فرهنگی</li><li>کیفیت در دوخت و پارچه</li><li>دسترسی آسان به پوشاک اقوام</li><li>حمایت از هنرمندان بومی</li></ul>', meta_description: 'آشنایی با مزون برنا ایران', is_published: true, updated_at: '2024-01-01T00:00:00Z' },
+  { id: 2, uuid: 'uuid-page-2', display_name: 'داستان برنا', slug: 'story', content: '<h2>از ایده تا واقعیت</h2><p>قصه برنا از سفر شروع شد؛ سفرهایی که پیج سفری Barna آن‌ها را به گزارش تصویری از پارچه‌فروشی‌ها، بازارهای محلی، آتلیه‌ها، هنرمندان، میکاپ‌آرتیست‌ها و طلافروشی‌های همکار تبدیل می‌کند.</p><p>۵۰۰+ طرح ثبت شده | ۸ گروه قومی | ۱۰۰۰+ مشتری راضی | ۵ سال تجربه</p>', meta_description: 'داستان برنا', is_published: true, updated_at: '2024-01-01T00:00:00Z' },
   { id: 3, uuid: 'uuid-page-3', display_name: 'تماس با ما', slug: 'contact', content: '<p>آدرس: تهران، خیابان ولیعصر، پلاک ۱۲۳</p><p>تلفن: ۰۲۱-۱۲۳۴۵۶۷۸</p><p>ایمیل: info@barna.ir</p>', meta_description: 'تماس با مزون برنا ایران', is_published: true, updated_at: '2024-01-01T00:00:00Z' },
   { id: 4, uuid: 'uuid-page-4', display_name: 'صفحه اصلی', slug: 'home', content: '<p>خوش آمدید</p>', meta_description: 'مزون برنا ایران', is_published: true, updated_at: '2024-01-01T00:00:00Z' },
 ];
