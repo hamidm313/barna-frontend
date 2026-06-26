@@ -1,6 +1,7 @@
 export interface User {
   id: number;
-  name: string;
+  uuid: string;
+  display_name: string;
   email: string;
   phone?: string;
   role: 'admin' | 'user';
@@ -11,7 +12,8 @@ export interface User {
 
 export interface EthnicGroup {
   id: number;
-  name: string;
+  uuid: string;
+  display_name: string;
   slug: string;
   description?: string;
   image?: string;
@@ -21,7 +23,8 @@ export interface EthnicGroup {
 
 export interface Tag {
   id: number;
-  name: string;
+  uuid: string;
+  display_name: string;
   slug: string;
   usage_count?: number;
 }
@@ -33,11 +36,12 @@ export type ClothingCondition = 'excellent' | 'good' | 'fair';
 
 export interface Clothing {
   id: number;
-  name: string;
+  uuid: string;
+  display_name: string;
   slug: string;
   description?: string;
   ethnic_group_id?: number;
-  ethnic_group_name?: string;
+  ethnic_group_display_name?: string;
   ethnic_group_slug?: string;
   category: ClothingCategory;
   gender: ClothingGender;
@@ -78,9 +82,9 @@ export interface Reservation {
   id: number;
   user_id?: number;
   clothing_id: number;
-  clothing_name?: string;
+  clothing_display_name?: string;
   clothing_images?: string[];
-  user_name?: string;
+  user_display_name?: string;
   user_email?: string;
   guest_name?: string;
   guest_email?: string;
@@ -106,7 +110,7 @@ export interface Order {
   order_number: string;
   user_id?: number;
   clothing_id?: number;
-  clothing_name?: string;
+  clothing_display_name?: string;
   guest_name?: string;
   guest_email?: string;
   guest_phone?: string;
@@ -122,7 +126,7 @@ export interface Order {
 export interface Comment {
   id: number;
   user_id?: number;
-  user_name?: string;
+  user_display_name?: string;
   guest_name?: string;
   guest_email?: string;
   clothing_id?: number;
@@ -148,8 +152,9 @@ export interface MediaItem {
 
 export interface Page {
   id: number;
+  uuid: string;
   slug: string;
-  title: string;
+  display_name: string;
   content?: string;
   meta_title?: string;
   meta_description?: string;
@@ -174,12 +179,12 @@ export interface ThemeSettings {
 export interface CommunityPost {
   id: number;
   user_id?: number;
-  user_name?: string;
-  title?: string;
+  user_display_name?: string;
+  display_name?: string;
   content?: string;
   images?: string[];
   ethnic_group_id?: number;
-  ethnic_group_name?: string;
+  ethnic_group_display_name?: string;
   status: 'pending' | 'approved' | 'rejected';
   created_at: string;
 }
@@ -187,7 +192,7 @@ export interface CommunityPost {
 export interface Request {
   id: number;
   user_id?: number;
-  user_name?: string;
+  user_display_name?: string;
   guest_name?: string;
   guest_email?: string;
   guest_phone?: string;
