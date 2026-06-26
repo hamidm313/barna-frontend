@@ -11,10 +11,11 @@ import toast from 'react-hot-toast';
 
 const statusMap: Record<string, { label: string; color: string }> = {
   pending: { label: 'در انتظار', color: '#f59e0b' },
-  paid: { label: 'پرداخت شده', color: '#10b981' },
+  processing: { label: 'در حال پردازش', color: '#10b981' },
   shipped: { label: 'ارسال شده', color: '#3b82f6' },
   delivered: { label: 'تحویل داده شده', color: '#059669' },
   cancelled: { label: 'لغو شده', color: '#ef4444' },
+  returned: { label: 'بازگشت داده شده', color: '#6b7280' },
 };
 
 export default function OrdersPage() {
@@ -30,9 +31,10 @@ export default function OrdersPage() {
 
   const columns: Column<Order>[] = [
     { key: 'id', label: '#', width: 60 },
-    { key: 'clothing_title', label: 'پوشاک' },
-    { key: 'user_name', label: 'کاربر' },
-    { key: 'sale_price', label: 'مبلغ', render: (r) => `${r.sale_price.toLocaleString('fa-IR')} ت` },
+    { key: 'order_number', label: 'شماره سفارش' },
+    { key: 'clothing_display_name', label: 'پوشاک' },
+    { key: 'guest_name', label: 'مشتری' },
+    { key: 'amount', label: 'مبلغ', render: (r) => `${r.amount.toLocaleString('fa-IR')} ت` },
     { key: 'status', label: 'وضعیت', render: (r) => {
       const s = statusMap[r.status] || { label: r.status, color: '#6b7280' };
       return (
@@ -57,7 +59,7 @@ export default function OrdersPage() {
         <DialogContent>
           {viewing && (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, mt: 1 }}>
-              {[['پوشاک', viewing.clothing_title], ['کاربر', viewing.user_name], ['مبلغ', `${viewing.sale_price.toLocaleString('fa-IR')} تومان`], ['تاریخ', new Date(viewing.created_at).toLocaleDateString('fa-IR')]].map(([k, v]) => (
+              {[['پوشاک', viewing.clothing_display_name || '-'], ['مشتری', viewing.guest_name || '-'], ['مبلغ', `${viewing.amount.toLocaleString('fa-IR')} تومان`], ['تاریخ', new Date(viewing.created_at).toLocaleDateString('fa-IR')]].map(([k, v]) => (
                 <Box key={k} sx={{ display: 'flex', gap: 1 }}>
                   <Typography sx={{ fontFamily: 'Vazirmatn, sans-serif', color: 'text.secondary', fontSize: '0.875rem', width: 80, flexShrink: 0 }}>{k}:</Typography>
                   <Typography sx={{ fontFamily: 'Vazirmatn, sans-serif', fontSize: '0.875rem' }}>{v}</Typography>

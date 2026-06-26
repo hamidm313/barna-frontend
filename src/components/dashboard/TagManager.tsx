@@ -14,7 +14,7 @@ export default function TagManager() {
 
   const { data, isLoading } = useQuery({ queryKey: ['tags'], queryFn: () => getTags({}) });
   const createMut = useMutation({
-    mutationFn: (name: string) => createTag({ name }),
+    mutationFn: (name: string) => createTag({ display_name: name }),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ['tags'] }); setNewTag(''); toast.success('برچسب اضافه شد'); },
     onError: () => toast.error('خطا'),
   });
@@ -38,7 +38,7 @@ export default function TagManager() {
       {isLoading ? <CircularProgress size={24} sx={{ color: '#C9A84C' }} /> : (
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
           {(data?.data || []).map((tag: Tag) => (
-            <Chip key={tag.id} label={`${tag.name} (${tag.usage_count || 0})`} onDelete={() => deleteMut.mutate(tag.id)}
+            <Chip key={tag.id} label={`${tag.display_name} (${tag.usage_count || 0})`} onDelete={() => deleteMut.mutate(tag.id)}
               sx={{ fontFamily: 'Vazirmatn, sans-serif', bgcolor: '#f5f0e8', '& .MuiChip-deleteIcon': { color: '#8B1A2F' } }} />
           ))}
         </Box>

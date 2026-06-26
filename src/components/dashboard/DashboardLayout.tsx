@@ -47,11 +47,11 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           </Typography>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <Typography variant="body2" sx={{ fontFamily: 'Vazirmatn, sans-serif', display: { xs: 'none', sm: 'block' } }}>
-              {user?.name}
+              {user?.display_name}
             </Typography>
             <IconButton onClick={(e) => setAnchorEl(e.currentTarget)} size="small">
               <Avatar sx={{ width: 32, height: 32, bgcolor: '#C9A84C', fontSize: '0.875rem' }}>
-                {user?.name?.[0] || 'A'}
+                {user?.display_name?.[0] || 'A'}
               </Avatar>
             </IconButton>
           </Box>

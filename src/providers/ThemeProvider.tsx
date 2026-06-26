@@ -36,7 +36,7 @@ function makeEmotionCache(dir: 'rtl' | 'ltr') {
 
 export function AppThemeProvider({ children, themeData }: { children: React.ReactNode; themeData?: Partial<ThemeSettings> }) {
   const [locale, setLocale] = useState<'fa' | 'en'>('fa');
-  const theme = { ...defaultTheme, ...themeData };
+  const theme = { ...defaultTheme, ...themeData } as ThemeSettings;
   const dir = locale === 'fa' ? 'rtl' : 'ltr';
 
   const muiTheme = createTheme({

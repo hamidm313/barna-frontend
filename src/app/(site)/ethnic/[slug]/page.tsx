@@ -5,6 +5,7 @@ import { ethnicGroupsApi } from '@/lib/api/ethnicGroups';
 import { clothingApi } from '@/lib/api/clothing';
 import { queryKeys } from '@/lib/queryKeys';
 import ClothingCard from '@/components/site/ClothingCard';
+import { Clothing } from '@/types';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import Image from 'next/image';
 
@@ -39,7 +40,7 @@ export default function EthnicDetailPage() {
         </div>
         {isLoading ? <LoadingSpinner className="h-48" /> : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {clothing?.data?.map(c => <ClothingCard key={c.id} clothing={c} compact />)}
+            {clothing?.data?.map((c: Clothing) => <ClothingCard key={c.id} clothing={c} compact />)}
           </div>
         )}
       </div>

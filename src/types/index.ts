@@ -146,7 +146,7 @@ export interface MediaItem {
   url: string;
   cdn_provider?: string;
   alt_text?: string;
-  tags?: string;
+  tags?: string[];
   created_at: string;
 }
 

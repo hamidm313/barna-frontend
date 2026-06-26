@@ -5,6 +5,7 @@ import { clothingApi } from '@/lib/api/clothing';
 import { ethnicGroupsApi } from '@/lib/api/ethnicGroups';
 import { queryKeys } from '@/lib/queryKeys';
 import HeroSection from '@/components/site/HeroSection';
+import { EthnicGroup, Clothing } from '@/types';
 import ClothingCard from '@/components/site/ClothingCard';
 import EthnicGroupCard from '@/components/site/EthnicGroupCard';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
@@ -31,7 +32,7 @@ export default function HomePage() {
         </div>
         {!ethnicGroups ? <LoadingSpinner className="h-32" /> : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {ethnicGroups.map(g => <EthnicGroupCard key={g.id} group={g} />)}
+            {ethnicGroups.map((g: EthnicGroup) => <EthnicGroupCard key={g.id} group={g} />)}
           </div>
         )}
         <div className="text-center mt-8">
@@ -48,7 +49,7 @@ export default function HomePage() {
           </div>
           {!featured ? <LoadingSpinner className="h-48" /> : (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-              {featured.data?.map(c => <ClothingCard key={c.id} clothing={c} compact />)}
+              {featured.data?.map((c: Clothing) => <ClothingCard key={c.id} clothing={c} compact />)}
             </div>
           )}
           <div className="text-center mt-8">

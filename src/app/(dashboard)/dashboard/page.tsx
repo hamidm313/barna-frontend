@@ -49,8 +49,8 @@ export default function DashboardPage() {
                   {i > 0 && <Divider />}
                   <ListItem sx={{ px: 0, py: 1 }}>
                     <ListItemText
-                      primary={<Typography sx={{ fontFamily: 'Vazirmatn, sans-serif', fontSize: '0.875rem' }}>{order.clothing_title || `سفارش #${order.id}`}</Typography>}
-                      secondary={<Typography sx={{ fontFamily: 'Vazirmatn, sans-serif', fontSize: '0.75rem', color: 'text.secondary' }}>{order.user_name}</Typography>}
+                      primary={<Typography sx={{ fontFamily: 'Vazirmatn, sans-serif', fontSize: '0.875rem' }}>{order.clothing_display_name || `سفارش #${order.id}`}</Typography>}
+                      secondary={<Typography sx={{ fontFamily: 'Vazirmatn, sans-serif', fontSize: '0.75rem', color: 'text.secondary' }}>{order.guest_name}</Typography>}
                     />
                     <Chip label={statusLabel(order.status)} size="small" sx={{ bgcolor: `${statusColor(order.status)}20`, color: statusColor(order.status), fontFamily: 'Vazirmatn, sans-serif', fontSize: '0.7rem' }} />
                   </ListItem>
@@ -70,7 +70,7 @@ export default function DashboardPage() {
                   <ListItem sx={{ px: 0, py: 1 }}>
                     <ListItemText
                       primary={<Typography sx={{ fontFamily: 'Vazirmatn, sans-serif', fontSize: '0.875rem', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{comment.content}</Typography>}
-                      secondary={<Typography sx={{ fontFamily: 'Vazirmatn, sans-serif', fontSize: '0.75rem', color: 'text.secondary' }}>{comment.author_name}</Typography>}
+                      secondary={<Typography sx={{ fontFamily: 'Vazirmatn, sans-serif', fontSize: '0.75rem', color: 'text.secondary' }}>{comment.user_display_name || comment.guest_name}</Typography>}
                     />
                   </ListItem>
                 </Box>
@@ -88,8 +88,8 @@ export default function DashboardPage() {
                   {i > 0 && <Divider />}
                   <ListItem sx={{ px: 0, py: 1 }}>
                     <ListItemText
-                      primary={<Typography sx={{ fontFamily: 'Vazirmatn, sans-serif', fontSize: '0.875rem' }}>{res.clothing_title || `رزرو #${res.id}`}</Typography>}
-                      secondary={<Typography sx={{ fontFamily: 'Vazirmatn, sans-serif', fontSize: '0.75rem', color: 'text.secondary' }}>{res.user_name}</Typography>}
+                      primary={<Typography sx={{ fontFamily: 'Vazirmatn, sans-serif', fontSize: '0.875rem' }}>{res.clothing_display_name || `رزرو #${res.id}`}</Typography>}
+                      secondary={<Typography sx={{ fontFamily: 'Vazirmatn, sans-serif', fontSize: '0.75rem', color: 'text.secondary' }}>{res.user_display_name || res.guest_name}</Typography>}
                     />
                     <Chip label={statusLabel(res.status)} size="small" sx={{ bgcolor: `${statusColor(res.status)}20`, color: statusColor(res.status), fontFamily: 'Vazirmatn, sans-serif', fontSize: '0.7rem' }} />
                   </ListItem>

@@ -67,7 +67,7 @@ export default function MediaManager() {
                 <CardMedia component="img" height="160" image={item.url} alt={item.original_name} sx={{ objectFit: 'cover' }} />
                 <CardContent sx={{ flexGrow: 1, pb: 1 }}>
                   <Typography variant="caption" sx={{ fontFamily: 'Vazirmatn, sans-serif', display: 'block', mb: 0.5, wordBreak: 'break-all', color: 'text.secondary' }}>{item.original_name}</Typography>
-                  <Typography variant="caption" color="text.secondary" sx={{ fontFamily: 'Vazirmatn, sans-serif' }}>{formatSize(item.size)}</Typography>
+                  <Typography variant="caption" color="text.secondary" sx={{ fontFamily: 'Vazirmatn, sans-serif' }}>{formatSize(item.size ?? 0)}</Typography>
                   <Box sx={{ mt: 1, display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                     {item.tags?.map((tag) => <Chip key={tag} label={tag} size="small" sx={{ fontSize: '0.65rem', height: 20 }} />)}
                   </Box>

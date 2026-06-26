@@ -11,7 +11,7 @@ import DataTable, { Column } from '@/components/dashboard/DataTable';
 import { EthnicGroup } from '@/types';
 import toast from 'react-hot-toast';
 
-const emptyForm = { name: '', slug: '', description: '', image_url: '' };
+const emptyForm = { display_name: '', slug: '', description: '', image: '' };
 
 export default function EthnicGroupsPage() {
   const [page, setPage] = useState(0);
@@ -25,7 +25,7 @@ export default function EthnicGroupsPage() {
   const updateMut = useMutation({ mutationFn: ({ id, data }: { id: number; data: typeof emptyForm }) => updateEthnicGroup(id, data), onSuccess: () => { qc.invalidateQueries({ queryKey: ['ethnicGroups'] }); setOpen(false); toast.success('ذخیره شد'); } });
   const deleteMut = useMutation({ mutationFn: (id: number) => deleteEthnicGroup(id), onSuccess: () => { qc.invalidateQueries({ queryKey: ['ethnicGroups'] }); toast.success('حذف شد'); } });
 
-  const openEdit = (g: EthnicGroup) => { setEditing(g); setForm({ name: g.name, slug: g.slug, description: g.description || '', image_url: g.image_url || '' }); setOpen(true); };
+  const openEdit = (g: EthnicGroup) => { setEditing(g); setForm({ display_name: g.display_name, slug: g.slug, description: g.description || '', image: g.image || '' }); setOpen(true); };
   const openNew = () => { setEditing(null); setForm(emptyForm); setOpen(true); };
   const handleSave = () => {
     if (editing) updateMut.mutate({ id: editing.id, data: form });
@@ -35,10 +35,9 @@ export default function EthnicGroupsPage() {
   const sx = { '& label, & input, & textarea': { fontFamily: 'Vazirmatn, sans-serif' } };
   const columns: Column<EthnicGroup>[] = [
     { key: 'id', label: '#', width: 60 },
-    { key: 'image_url', label: 'تصویر', width: 60, render: (r) => <Avatar src={r.image_url} sx={{ width: 36, height: 36 }}>{r.name[0]}</Avatar> },
-    { key: 'name', label: 'نام' },
+    { key: 'image', label: 'تصویر', width: 60, render: (r) => <Avatar src={r.image} sx={{ width: 36, height: 36 }}>{r.display_name[0]}</Avatar> },
+    { key: 'display_name', label: 'نام' },
     { key: 'slug', label: 'اسلاگ' },
-    { key: 'clothing_count', label: 'تعداد پوشاک', render: (r) => r.clothing_count ?? 0 },
     { key: 'actions', label: 'عملیات', align: 'center', render: (r) => (
       <Box sx={{ display: 'flex', gap: 0.5, justifyContent: 'center' }}>
         <Tooltip title="ویرایش"><IconButton size="small" onClick={() => openEdit(r)} sx={{ color: '#1E2A4A' }}><EditIcon fontSize="small" /></IconButton></Tooltip>
@@ -58,10 +57,10 @@ export default function EthnicGroupsPage() {
         <DialogTitle sx={{ fontFamily: 'Vazirmatn, sans-serif' }}>{editing ? 'ویرایش گروه' : 'گروه جدید'}</DialogTitle>
         <DialogContent>
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 1 }}>
-            <TextField required label="نام" value={form.name} onChange={e => setForm(p => ({ ...p, name: e.target.value }))} sx={sx} />
+            <TextField required label="نام" value={form.display_name} onChange={e => setForm(p => ({ ...p, display_name: e.target.value }))} sx={sx} />
             <TextField required label="اسلاگ" value={form.slug} onChange={e => setForm(p => ({ ...p, slug: e.target.value }))} sx={sx} />
             <TextField label="توضیحات" multiline rows={3} value={form.description} onChange={e => setForm(p => ({ ...p, description: e.target.value }))} sx={sx} />
-            <TextField label="لینک تصویر" value={form.image_url} onChange={e => setForm(p => ({ ...p, image_url: e.target.value }))} sx={sx} />
+            <TextField label="لینک تصویر" value={form.image} onChange={e => setForm(p => ({ ...p, image: e.target.value }))} sx={sx} />
           </Box>
         </DialogContent>
         <DialogActions>

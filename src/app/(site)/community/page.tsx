@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { communityApi } from '@/lib/api/community';
 import { ethnicGroupsApi } from '@/lib/api/ethnicGroups';
 import { queryKeys } from '@/lib/queryKeys';
-import { CommunityPost } from '@/types';
+import { CommunityPost, EthnicGroup } from '@/types';
 import { useState } from 'react';
 import { useAuth } from '@/providers/AuthProvider';
 import toast from 'react-hot-toast';
@@ -41,7 +41,7 @@ export default function CommunityPage() {
           <textarea className="input-field mb-3 resize-none" rows={4} placeholder="توضیحات..." value={form.content} onChange={e => setForm(f => ({ ...f, content: e.target.value }))} />
           <select className="input-field mb-3" value={form.ethnic_group_id} onChange={e => setForm(f => ({ ...f, ethnic_group_id: e.target.value }))}>
             <option value="">انتخاب قوم (اختیاری)</option>
-            {groups?.map(g => <option key={g.id} value={g.id}>{g.display_name}</option>)}
+            {groups?.map((g: EthnicGroup) => <option key={g.id} value={g.id}>{g.display_name}</option>)}
           </select>
           <div className="flex gap-3">
             <button onClick={() => mutate()} disabled={!form.content || isPending} className="btn-primary">ارسال</button>

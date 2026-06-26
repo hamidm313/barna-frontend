@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { ethnicGroupsApi } from '@/lib/api/ethnicGroups';
 import { queryKeys } from '@/lib/queryKeys';
 import EthnicGroupCard from '@/components/site/EthnicGroupCard';
+import { EthnicGroup } from '@/types';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 
 export default function EthnicPage() {
@@ -19,7 +20,7 @@ export default function EthnicPage() {
       </div>
       {isLoading ? <LoadingSpinner className="h-64" /> : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
-          {groups?.map(g => <EthnicGroupCard key={g.id} group={g} />)}
+          {groups?.map((g: EthnicGroup) => <EthnicGroupCard key={g.id} group={g} />)}
         </div>
       )}
     </div>

@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { clothingApi } from '@/lib/api/clothing';
 import { ethnicGroupsApi } from '@/lib/api/ethnicGroups';
 import { queryKeys } from '@/lib/queryKeys';
-import { ClothingFilters } from '@/types';
+import { ClothingFilters, EthnicGroup, Clothing } from '@/types';
 import ClothingCard from '@/components/site/ClothingCard';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import Pagination from '@/components/common/Pagination';
@@ -18,7 +18,7 @@ export default function ClothingPage() {
 
   const { data, isLoading } = useQuery({
     queryKey: queryKeys.clothing.list(filters),
-    queryFn: () => clothingApi.list(filters),
+    queryFn: () => clothingApi.list(filters as Record<string, unknown>),
   });
   const { data: groups } = useQuery({
     queryKey: queryKeys.ethnicGroups.list(),
@@ -44,7 +44,7 @@ export default function ClothingPage() {
         />
         <select className="input-field w-auto" onChange={e => set('ethnic_group', e.target.value)}>
           <option value="">همه اقوام</option>
-          {groups?.map(g => <option key={g.slug} value={g.slug}>{g.name}</option>)}
+          {groups?.map((g: EthnicGroup) => <option key={g.slug} value={g.slug}>{g.display_name}</option>)}
         </select>
         <select className="input-field w-auto" onChange={e => set('category', e.target.value as any)}>
           {categories.map(([v, l]) => <option key={v} value={v}>{l}</option>)}
@@ -60,7 +60,7 @@ export default function ClothingPage() {
         <>
           <p className="text-sm text-barna-gray mb-4">{data.pagination.total} لباس یافت شد</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {data.data.map(c => <ClothingCard key={c.id} clothing={c} compact />)}
+            {data.data.map((c: Clothing) => <ClothingCard key={c.id} clothing={c} compact />)}
           </div>
           <Pagination page={filters.page || 1} pages={data.pagination.pages} onPageChange={p => setFilters(f => ({ ...f, page: p }))} />
         </>

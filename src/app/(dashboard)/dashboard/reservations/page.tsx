@@ -10,8 +10,7 @@ import toast from 'react-hot-toast';
 
 const statusMap: Record<string, { label: string; color: string }> = {
   pending: { label: 'در انتظار', color: '#f59e0b' },
-  approved: { label: 'تأیید شده', color: '#10b981' },
-  rejected: { label: 'رد شده', color: '#ef4444' },
+  confirmed: { label: 'تأیید شده', color: '#10b981' },
   active: { label: 'فعال', color: '#3b82f6' },
   returned: { label: 'بازگشت', color: '#6b7280' },
   cancelled: { label: 'لغو شده', color: '#ef4444' },
@@ -29,12 +28,12 @@ export default function ReservationsPage() {
 
   const columns: Column<Reservation>[] = [
     { key: 'id', label: '#', width: 60 },
-    { key: 'clothing_title', label: 'پوشاک' },
+    { key: 'clothing_display_name', label: 'پوشاک' },
     { key: 'user_name', label: 'کاربر' },
     { key: 'start_date', label: 'از', render: (r) => new Date(r.start_date).toLocaleDateString('fa-IR') },
     { key: 'end_date', label: 'تا', render: (r) => new Date(r.end_date).toLocaleDateString('fa-IR') },
     { key: 'deposit_amount', label: 'ودیعه', render: (r) => `${r.deposit_amount.toLocaleString('fa-IR')} ت` },
-    { key: 'total_amount', label: 'کل', render: (r) => `${r.total_amount.toLocaleString('fa-IR')} ت` },
+    { key: 'rental_fee', label: 'اجاره', render: (r) => `${(r.rental_fee ?? 0).toLocaleString('fa-IR')} ت` },
     { key: 'status', label: 'وضعیت', render: (r) => {
       const s = statusMap[r.status] || { label: r.status, color: '#6b7280' };
       return (

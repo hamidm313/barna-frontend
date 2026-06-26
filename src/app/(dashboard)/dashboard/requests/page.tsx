@@ -9,7 +9,7 @@ import DataTable, { Column } from '@/components/dashboard/DataTable';
 import { Request } from '@/types';
 import toast from 'react-hot-toast';
 
-const statusMap = { new: { label: 'جدید', color: '#3b82f6' }, read: { label: 'خوانده شده', color: '#6b7280' }, responded: { label: 'پاسخ داده شده', color: '#10b981' } };
+const statusMap = { pending: { label: 'جدید', color: '#3b82f6' }, in_review: { label: 'در حال بررسی', color: '#6b7280' }, responded: { label: 'پاسخ داده شده', color: '#10b981' }, closed: { label: 'بسته شده', color: '#ef4444' } };
 
 export default function RequestsPage() {
   const [page, setPage] = useState(0);
@@ -25,9 +25,9 @@ export default function RequestsPage() {
 
   const columns: Column<Request>[] = [
     { key: 'id', label: '#', width: 60 },
-    { key: 'name', label: 'نام' },
-    { key: 'email', label: 'ایمیل' },
-    { key: 'ethnic_group', label: 'گروه قومی' },
+    { key: 'guest_name', label: 'نام' },
+    { key: 'guest_email', label: 'ایمیل' },
+    { key: 'type', label: 'نوع' },
     { key: 'message', label: 'پیام', render: (r) => <Typography sx={{ fontFamily: 'Vazirmatn, sans-serif', fontSize: '0.85rem', display: '-webkit-box', WebkitLineClamp: 1, WebkitBoxOrient: 'vertical', overflow: 'hidden', maxWidth: 200 }}>{r.message}</Typography> },
     { key: 'status', label: 'وضعیت', render: (r) => {
       const s = statusMap[r.status as keyof typeof statusMap] || { label: r.status, color: '#6b7280' };
@@ -44,7 +44,7 @@ export default function RequestsPage() {
       <Typography variant="h5" sx={{ mb: 3, fontFamily: 'Vazirmatn, sans-serif', fontWeight: 700, color: '#1E2A4A' }}>درخواست‌های کاربران</Typography>
       <DataTable columns={columns} rows={data?.data ?? []} keyField="id" loading={isLoading} total={data?.pagination?.total} page={page} rowsPerPage={10} onPageChange={setPage} emptyMessage="درخواستی وجود ندارد" />
       <Dialog open={Boolean(replying)} onClose={() => setReplying(null)} maxWidth="sm" fullWidth>
-        <DialogTitle sx={{ fontFamily: 'Vazirmatn, sans-serif' }}>پاسخ به {replying?.name}</DialogTitle>
+        <DialogTitle sx={{ fontFamily: 'Vazirmatn, sans-serif' }}>پاسخ به {replying?.guest_name || replying?.user_display_name || 'درخواست'}</DialogTitle>
         <DialogContent>
           <Box sx={{ mt: 1, mb: 2, p: 2, bgcolor: '#f5f5f5', borderRadius: 1 }}>
             <Typography sx={{ fontFamily: 'Vazirmatn, sans-serif', fontSize: '0.875rem' }}>{replying?.message}</Typography>

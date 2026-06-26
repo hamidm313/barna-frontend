@@ -9,7 +9,7 @@ export async function getTags(params: Record<string, unknown> = {}) {
   return res.data;
 }
 
-export async function createTag(data: { name: string }) {
+export async function createTag(data: { display_name: string }) {
   if (USE_MOCK) return mockTagsApi.create(data);
   const res = await apiClient.post('/tags', data);
   return res.data;

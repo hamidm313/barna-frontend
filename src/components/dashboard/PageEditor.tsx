@@ -20,7 +20,7 @@ export default function PageEditor({ initialData, onSubmit, loading }: PageEdito
   return (
     <Box component="form" onSubmit={(e) => { e.preventDefault(); onSubmit(form); }}>
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
-        <TextField required fullWidth label="عنوان صفحه" value={form.title || ''} onChange={e => setForm(p => ({ ...p, title: e.target.value }))} sx={sx} />
+        <TextField required fullWidth label="عنوان صفحه" value={form.display_name || ''} onChange={e => setForm(p => ({ ...p, display_name: e.target.value }))} sx={sx} />
         <TextField required fullWidth label="اسلاگ (slug)" value={form.slug || ''} onChange={e => setForm(p => ({ ...p, slug: e.target.value }))} sx={sx} helperText="مثال: about-us" />
         <TextField fullWidth label="توضیحات متا" value={form.meta_description || ''} onChange={e => setForm(p => ({ ...p, meta_description: e.target.value }))} sx={sx} />
         <TextField fullWidth multiline rows={10} label="محتوا (HTML)" value={form.content || ''} onChange={e => setForm(p => ({ ...p, content: e.target.value }))} sx={sx} />
