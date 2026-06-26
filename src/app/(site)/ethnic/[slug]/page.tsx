@@ -24,10 +24,10 @@ export default function EthnicDetailPage() {
     <div>
       {/* Hero */}
       <div className="relative h-72 bg-barna-cream overflow-hidden">
-        {group?.image && <Image src={group.image} alt={group?.name || ''} fill className="object-cover opacity-60" sizes="100vw" />}
+        {group?.image && <Image src={group.image} alt={group?.display_name || ''} fill className="object-cover opacity-60" sizes="100vw" />}
         <div className="absolute inset-0 bg-gradient-to-t from-barna-dark/80 to-transparent" />
         <div className="absolute bottom-0 inset-x-0 p-8 max-w-7xl mx-auto">
-          <h1 className="text-4xl font-bold text-white">{group?.name}</h1>
+          <h1 className="text-4xl font-bold text-white">{group?.display_name}</h1>
           {group?.description && <p className="text-white/80 mt-2 max-w-xl">{group.description}</p>}
         </div>
       </div>

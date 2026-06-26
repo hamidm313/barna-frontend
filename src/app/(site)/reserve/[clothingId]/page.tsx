@@ -53,7 +53,7 @@ export default function ReservePage() {
       <h1 className="text-2xl font-bold text-barna-dark mb-6">رزرو امانی لباس</h1>
       {clothing && (
         <div className="bg-barna-cream rounded-barna p-4 mb-6 flex gap-4 items-center">
-          <div className="font-semibold text-barna-dark flex-1">{clothing.name}</div>
+          <div className="font-semibold text-barna-dark flex-1">{clothing.display_name}</div>
           <div className="text-sm text-barna-gray">کرایه روزانه: <PriceDisplay amount={clothing.rental_price_per_day} /></div>
         </div>
       )}

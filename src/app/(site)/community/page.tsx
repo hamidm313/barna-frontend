@@ -13,14 +13,14 @@ export default function CommunityPage() {
   const { isAuthenticated } = useAuth();
   const qc = useQueryClient();
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ title: '', content: '', ethnic_group_id: '' });
+  const [form, setForm] = useState({ display_name: '', content: '', ethnic_group_id: '' });
 
   const { data: posts, isLoading } = useQuery({ queryKey: queryKeys.community.list(), queryFn: () => communityApi.list() });
   const { data: groups } = useQuery({ queryKey: queryKeys.ethnicGroups.list(), queryFn: () => ethnicGroupsApi.list() });
 
   const { mutate, isPending } = useMutation({
     mutationFn: () => communityApi.create({ ...form, ethnic_group_id: form.ethnic_group_id ? Number(form.ethnic_group_id) : undefined }),
-    onSuccess: () => { toast.success('پست شما ثبت شد و پس از تأیید نمایش داده می‌شود'); setShowForm(false); setForm({ title: '', content: '', ethnic_group_id: '' }); qc.invalidateQueries({ queryKey: ['community'] }); },
+    onSuccess: () => { toast.success('پست شما ثبت شد و پس از تأیید نمایش داده می‌شود'); setShowForm(false); setForm({ display_name: '', content: '', ethnic_group_id: '' }); qc.invalidateQueries({ queryKey: ['community'] }); },
     onError: () => toast.error('خطا در ثبت'),
   });
 
@@ -37,11 +37,11 @@ export default function CommunityPage() {
       {showForm && (
         <div className="card p-6 mb-8">
           <h3 className="font-bold mb-4">پست جدید</h3>
-          <input className="input-field mb-3" placeholder="عنوان" value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} />
+          <input className="input-field mb-3" placeholder="عنوان" value={form.display_name} onChange={e => setForm(f => ({ ...f, display_name: e.target.value }))} />
           <textarea className="input-field mb-3 resize-none" rows={4} placeholder="توضیحات..." value={form.content} onChange={e => setForm(f => ({ ...f, content: e.target.value }))} />
           <select className="input-field mb-3" value={form.ethnic_group_id} onChange={e => setForm(f => ({ ...f, ethnic_group_id: e.target.value }))}>
             <option value="">انتخاب قوم (اختیاری)</option>
-            {groups?.map(g => <option key={g.id} value={g.id}>{g.name}</option>)}
+            {groups?.map(g => <option key={g.id} value={g.id}>{g.display_name}</option>)}
           </select>
           <div className="flex gap-3">
             <button onClick={() => mutate()} disabled={!form.content || isPending} className="btn-primary">ارسال</button>
@@ -55,13 +55,13 @@ export default function CommunityPage() {
           {posts?.map((p: CommunityPost) => (
             <div key={p.id} className="card p-6">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-9 h-9 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-bold">{(p.user_name || 'م')[0]}</div>
+                <div className="w-9 h-9 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-bold">{(p.user_display_name || 'م')[0]}</div>
                 <div>
-                  <p className="font-medium text-sm">{p.user_name || 'کاربر مهمان'}</p>
-                  <p className="text-xs text-barna-gray">{new Date(p.created_at).toLocaleDateString('fa-IR')}{p.ethnic_group_name && ` · ${p.ethnic_group_name}`}</p>
+                  <p className="font-medium text-sm">{p.user_display_name || 'کاربر مهمان'}</p>
+                  <p className="text-xs text-barna-gray">{new Date(p.created_at).toLocaleDateString('fa-IR')}{p.ethnic_group_display_name && ` · ${p.ethnic_group_display_name}`}</p>
                 </div>
               </div>
-              {p.title && <h3 className="font-semibold text-barna-dark mb-2">{p.title}</h3>}
+              {p.display_name && <h3 className="font-semibold text-barna-dark mb-2">{p.display_name}</h3>}
               {p.content && <p className="text-barna-gray text-sm leading-7">{p.content}</p>}
             </div>
           ))}

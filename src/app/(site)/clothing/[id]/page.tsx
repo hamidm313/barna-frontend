@@ -37,8 +37,8 @@ export default function ClothingDetailPage() {
         <div>
           <div className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-barna-cream mb-3">
             {images[activeImg] ? (
-              <Image src={images[activeImg]} alt={clothing.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
-            ) : <div className="w-full h-full flex items-center justify-center text-6xl">🪡</div>}
+              <Image src={images[activeImg]} alt={clothing.display_name} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+            ) : <div className="w-full h-full flex items-center justify-center text-6xl">🦡</div>}
           </div>
           {images.length > 1 && (
             <div className="flex gap-2">
@@ -53,10 +53,10 @@ export default function ClothingDetailPage() {
 
         {/* Details */}
         <div>
-          {clothing.ethnic_group_name && (
-            <p className="text-primary-600 font-medium text-sm mb-1">{clothing.ethnic_group_name}</p>
+          {clothing.ethnic_group_display_name && (
+            <p className="text-primary-600 font-medium text-sm mb-1">{clothing.ethnic_group_display_name}</p>
           )}
-          <h1 className="text-3xl font-bold text-barna-dark mb-4">{clothing.name}</h1>
+          <h1 className="text-3xl font-bold text-barna-dark mb-4">{clothing.display_name}</h1>
 
           <div className="flex flex-wrap gap-2 mb-6">
             <span className="badge-primary">{categoryLabels[clothing.category]}</span>

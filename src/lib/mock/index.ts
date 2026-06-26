@@ -41,7 +41,7 @@ export const mockClothingApi = {
   list: async (params: Record<string, unknown> = {}) => {
     await delay();
     let items = [...mockClothing];
-    if (params.search) items = items.filter(c => c.title.includes(String(params.search)));
+    if (params.search) items = items.filter(c => c.display_name.includes(String(params.search)));
     if (params.ethnic_group_id) items = items.filter(c => c.ethnic_group_id === Number(params.ethnic_group_id));
     if (params.category) items = items.filter(c => c.category === params.category);
     if (params.gender) items = items.filter(c => c.gender === params.gender);
@@ -76,7 +76,7 @@ export const mockTagsApi = {
     await delay(100);
     return paginate(mockTags, Number(params.page) || 1, Number(params.limit) || 50);
   },
-  create: async (data: { name: string }) => { await delay(); return { data: { id: Date.now(), name: data.name, slug: data.name, usage_count: 0 } }; },
+  create: async (data: { display_name: string }) => { await delay(); return { data: { id: Date.now(), display_name: data.display_name, slug: data.display_name, uuid: 'uuid-tag-new', usage_count: 0 } }; },
   remove: async () => { await delay(); return { message: 'حذف شد' }; },
 };
 
@@ -178,7 +178,7 @@ export const mockRequestsApi = {
     if (params.status) items = items.filter(r => r.status === params.status);
     return paginate(items, Number(params.page) || 1, Number(params.limit) || 10);
   },
-  create: async (data: Record<string, unknown>) => { await delay(); return { data: { id: Date.now(), ...data, status: 'new' } }; },
+  create: async (data: Record<string, unknown>) => { await delay(); return { data: { id: Date.now(), ...data, status: 'pending' } }; },
   respond: async (id: number, response: string) => { await delay(); return { data: { ...mockRequests.find(r => r.id === id), status: 'responded', admin_response: response } }; },
 };
 

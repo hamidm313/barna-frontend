@@ -7,7 +7,7 @@ export default function AboutPage() {
   const { data: page } = useQuery({ queryKey: queryKeys.pages.detail('about'), queryFn: () => pagesApi.getOne('about') });
   return (
     <div className="max-w-4xl mx-auto px-4 py-16">
-      <h1 className="section-title text-3xl mb-8">{page?.title || 'درباره مزون برنا'}</h1>
+      <h1 className="section-title text-3xl mb-8">{page?.display_name || 'درباره مزون برنا'}</h1>
       <div className="prose prose-lg max-w-none text-barna-dark leading-9" dangerouslySetInnerHTML={{ __html: page?.content || '' }} />
       <div className="mt-12 grid md:grid-cols-3 gap-6">
         {[['🎯', 'هدف', 'حفظ و احیای لباس‌های سنتی اقوام ایران'],['🚗', 'روش', 'سفرهای هدفمند و تحقیق میدانی در سراسر ایران'],['❤️', 'ارزش', 'احترام به فرهنگ و هویت اقوام ایرانی']].map(([icon, title, desc]) => (

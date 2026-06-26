@@ -22,7 +22,7 @@ export default function ClothingCard({ clothing, compact = false }: ClothingCard
   return (
     <div className="card group">
       <div className="relative overflow-hidden aspect-[3/4] bg-barna-cream">
-        <Image src={mainImage} alt={clothing.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 100vw, 33vw" />
+        <Image src={mainImage} alt={clothing.display_name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" sizes="(max-width: 768px) 100vw, 33vw" />
         <div className="absolute top-3 end-3 flex flex-col gap-1">
           <span className={statusColors[clothing.status]}>{statusLabels[clothing.status]}</span>
           {clothing.is_featured && <span className="badge bg-primary-500 text-white">ویژه</span>}
@@ -35,10 +35,10 @@ export default function ClothingCard({ clothing, compact = false }: ClothingCard
       </div>
 
       <div className="p-4">
-        {clothing.ethnic_group_name && (
-          <p className="text-xs text-primary-600 font-medium mb-1">{clothing.ethnic_group_name}</p>
+        {clothing.ethnic_group_display_name && (
+          <p className="text-xs text-primary-600 font-medium mb-1">{clothing.ethnic_group_display_name}</p>
         )}
-        <h3 className="font-semibold text-barna-dark text-sm mb-2 line-clamp-2">{clothing.name}</h3>
+        <h3 className="font-semibold text-barna-dark text-sm mb-2 line-clamp-2">{clothing.display_name}</h3>
 
         {!compact && (
           <div className="flex flex-wrap gap-1 mb-3">

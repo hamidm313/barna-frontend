@@ -61,10 +61,10 @@ export default function ClothingForm({ initialData, onSubmit, loading }: Clothin
   return (
     <Box component="form" onSubmit={handleSubmit}>
       <Grid container spacing={2.5}>
-        <Grid item xs={12} md={6}><TextField fullWidth required label="عنوان" value={form.name || ''} onChange={e => set('name', e.target.value)} sx={sx} /></Grid>
+        <Grid item xs={12} md={6}><TextField fullWidth required label="عنوان" value={form.display_name || ''} onChange={e => set('display_name', e.target.value)} sx={sx} /></Grid>
         <Grid item xs={12} md={6}>
           <TextField select fullWidth required label="گروه قومی" value={form.ethnic_group_id || ''} onChange={e => set('ethnic_group_id', Number(e.target.value))} sx={sx}>
-            {(groups?.data || []).map((g: { id: number; name: string }) => <MenuItem key={g.id} value={g.id} sx={{ fontFamily: 'Vazirmatn, sans-serif' }}>{g.name}</MenuItem>)}
+            {(groups?.data || []).map((g: { id: number; display_name: string }) => <MenuItem key={g.id} value={g.id} sx={{ fontFamily: 'Vazirmatn, sans-serif' }}>{g.display_name}</MenuItem>)}
           </TextField>
         </Grid>
         <Grid item xs={12} md={4}>
@@ -101,9 +101,9 @@ export default function ClothingForm({ initialData, onSubmit, loading }: Clothin
         <Grid item xs={12}>
           <Typography variant="body2" sx={{ mb: 1, fontFamily: 'Vazirmatn, sans-serif', color: 'text.secondary' }}>برچسب‌ها:</Typography>
           <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-            {(tags?.data || []).map((tag: { id: number; name: string }) => {
-              const selected = ((form as Record<string, unknown>).tag_names as string[] || []).includes(tag.name);
-              return <Chip key={tag.id} label={tag.name} clickable onClick={() => toggleTag(tag.name)}
+            {(tags?.data || []).map((tag: { id: number; display_name: string }) => {
+              const selected = ((form as Record<string, unknown>).tag_names as string[] || []).includes(tag.display_name);
+              return <Chip key={tag.id} label={tag.display_name} clickable onClick={() => toggleTag(tag.display_name)}
                 sx={{ fontFamily: 'Vazirmatn, sans-serif', bgcolor: selected ? '#C9A84C' : undefined, color: selected ? 'white' : undefined }} />;
             })}
           </Box>

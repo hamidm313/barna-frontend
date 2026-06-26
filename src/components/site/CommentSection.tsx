@@ -37,10 +37,10 @@ export default function CommentSection({ clothingId }: { clothingId: number }) {
           <div key={c.id} className="bg-white rounded-barna p-4 shadow-sm border border-gray-50">
             <div className="flex items-center gap-3 mb-2">
               <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-bold text-sm">
-                {(c.user_name || c.guest_name || 'ک')[0]}
+                {(c.user_display_name || c.guest_name || 'ک')[0]}
               </div>
               <div>
-                <p className="font-medium text-sm text-barna-dark">{c.user_name || c.guest_name || 'کاربر مهمان'}</p>
+                <p className="font-medium text-sm text-barna-dark">{c.user_display_name || c.guest_name || 'کاربر مهمان'}</p>
                 <p className="text-xs text-barna-gray">{new Date(c.created_at).toLocaleDateString('fa-IR')}</p>
               </div>
             </div>

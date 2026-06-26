@@ -38,13 +38,13 @@ export default function ClothingListPage() {
 
   const columns: Column<Clothing>[] = [
     { key: 'id', label: '#', width: 60 },
-    { key: 'name', label: 'عنوان', render: (r) => (
+    { key: 'display_name', label: 'عنوان', render: (r) => (
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
         {r.is_featured && <StarIcon sx={{ fontSize: 14, color: '#C9A84C' }} />}
-        <Typography sx={{ fontFamily: 'Vazirmatn, sans-serif', fontSize: '0.85rem' }}>{r.name}</Typography>
+        <Typography sx={{ fontFamily: 'Vazirmatn, sans-serif', fontSize: '0.85rem' }}>{r.display_name}</Typography>
       </Box>
     )},
-    { key: 'ethnic_group_name', label: 'گروه قومی' },
+    { key: 'ethnic_group_display_name', label: 'گروه قومی' },
     { key: 'category', label: 'دسته‌بندی' },
     { key: 'status', label: 'وضعیت', render: (r) => {
       const s = statusMap[r.status] || { label: r.status, color: '#6b7280' };
