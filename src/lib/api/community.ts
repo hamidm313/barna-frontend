@@ -20,3 +20,12 @@ export async function updateCommunityPostStatus(id: number, status: string) {
   const res = await apiClient.patch(`/community/${id}/status`, { status });
   return res.data;
 }
+
+export const communityApi = {
+  list: async (params: Record<string, unknown> = {}) => {
+    const res: any = await getCommunityPosts(params);
+    return res.data ?? res;
+  },
+  create: createCommunityPost,
+  updateStatus: updateCommunityPostStatus,
+};

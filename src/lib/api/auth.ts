@@ -32,3 +32,17 @@ export async function changePassword(data: { current_password: string; new_passw
   const res = await apiClient.put('/auth/password', data);
   return res.data;
 }
+
+export const authApi = {
+  login: async (form: { email: string; password: string }) => {
+    const res: any = await login(form.email, form.password);
+    return res.data ?? res;
+  },
+  register: async (form: { name: string; email: string; password: string; phone?: string }) => {
+    const res: any = await register(form);
+    return res.data ?? res;
+  },
+  me: getMe,
+  updateProfile,
+  changePassword,
+};

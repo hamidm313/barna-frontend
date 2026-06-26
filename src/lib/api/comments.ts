@@ -26,3 +26,13 @@ export async function deleteComment(id: number) {
   const res = await apiClient.delete(`/comments/${id}`);
   return res.data;
 }
+
+export const commentsApi = {
+  list: async (params: Record<string, unknown> = {}) => {
+    const res: any = await getComments(params);
+    return res.data ?? res;
+  },
+  create: createComment,
+  updateStatus: updateCommentStatus,
+  remove: deleteComment,
+};

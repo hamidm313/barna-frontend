@@ -26,3 +26,13 @@ export async function updateReservationStatus(id: number, status: string) {
   const res = await apiClient.patch(`/reservations/${id}/status`, { status });
   return res.data;
 }
+
+export const reservationsApi = {
+  list: getReservations,
+  getOne: async (id: number) => {
+    const res: any = await getReservationById(id);
+    return res.data ?? res;
+  },
+  create: createReservation,
+  updateStatus: updateReservationStatus,
+};

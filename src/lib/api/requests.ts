@@ -20,3 +20,9 @@ export async function respondToRequest(id: number, response: string) {
   const res = await apiClient.post(`/requests/${id}/respond`, { response });
   return res.data;
 }
+
+export const requestsApi = {
+  list: getRequests,
+  create: createRequest,
+  respond: respondToRequest,
+};

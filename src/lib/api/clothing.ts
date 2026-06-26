@@ -33,3 +33,14 @@ export async function deleteClothing(id: number) {
   const res = await apiClient.delete(`/clothing/${id}`);
   return res.data;
 }
+
+export const clothingApi = {
+  list: getClothing,
+  getOne: async (id: string | number) => {
+    const res: any = await getClothingById(Number(id));
+    return res.data ?? res;
+  },
+  create: createClothing,
+  update: updateClothing,
+  remove: deleteClothing,
+};

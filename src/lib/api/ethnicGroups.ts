@@ -33,3 +33,17 @@ export async function deleteEthnicGroup(id: number) {
   const res = await apiClient.delete(`/ethnic-groups/${id}`);
   return res.data;
 }
+
+export const ethnicGroupsApi = {
+  list: async (params: Record<string, unknown> = {}) => {
+    const res: any = await getEthnicGroups(params);
+    return res.data ?? res;
+  },
+  getOne: async (slug: string) => {
+    const res: any = await getEthnicGroupBySlug(slug);
+    return res.data ?? res;
+  },
+  create: createEthnicGroup,
+  update: updateEthnicGroup,
+  remove: deleteEthnicGroup,
+};

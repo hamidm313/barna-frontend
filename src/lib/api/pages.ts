@@ -20,3 +20,12 @@ export async function upsertPage(slug: string, data: Record<string, unknown>) {
   const res = await apiClient.put(`/pages/${slug}`, data);
   return res.data;
 }
+
+export const pagesApi = {
+  list: getPages,
+  getOne: async (slug: string) => {
+    const res: any = await getPageBySlug(slug);
+    return res.data ?? res;
+  },
+  upsert: upsertPage,
+};
