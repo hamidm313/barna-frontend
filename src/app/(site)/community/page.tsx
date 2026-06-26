@@ -8,8 +8,10 @@ import { useState } from 'react';
 import { useAuth } from '@/providers/AuthProvider';
 import toast from 'react-hot-toast';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
+import { useTranslation } from '@/lib/i18n';
 
 export default function CommunityPage() {
+  const { t } = useTranslation();
   const { isAuthenticated } = useAuth();
   const qc = useQueryClient();
   const [showForm, setShowForm] = useState(false);
@@ -20,32 +22,32 @@ export default function CommunityPage() {
 
   const { mutate, isPending } = useMutation({
     mutationFn: () => communityApi.create({ ...form, ethnic_group_id: form.ethnic_group_id ? Number(form.ethnic_group_id) : undefined }),
-    onSuccess: () => { toast.success('پست شما ثبت شد و پس از تأیید نمایش داده می‌شود'); setShowForm(false); setForm({ display_name: '', content: '', ethnic_group_id: '' }); qc.invalidateQueries({ queryKey: ['community'] }); },
-    onError: () => toast.error('خطا در ثبت'),
+    onSuccess: () => { toast.success(t('community.successMsg')); setShowForm(false); setForm({ display_name: '', content: '', ethnic_group_id: '' }); qc.invalidateQueries({ queryKey: ['community'] }); },
+    onError: () => toast.error(t('community.errorMsg')),
   });
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="section-title">جامعه برنا</h1>
-          <p className="section-subtitle">اشتراک‌گذاری عکس‌های لباس محلی</p>
+          <h1 className="section-title">{t('community.title')}</h1>
+          <p className="section-subtitle">{t('community.subtitle')}</p>
         </div>
-        <button onClick={() => setShowForm(!showForm)} className="btn-primary">+ پست جدید</button>
+        <button onClick={() => setShowForm(!showForm)} className="btn-primary">{t('community.newPost')}</button>
       </div>
 
       {showForm && (
         <div className="card p-6 mb-8">
-          <h3 className="font-bold mb-4">پست جدید</h3>
-          <input className="input-field mb-3" placeholder="عنوان" value={form.display_name} onChange={e => setForm(f => ({ ...f, display_name: e.target.value }))} />
-          <textarea className="input-field mb-3 resize-none" rows={4} placeholder="توضیحات..." value={form.content} onChange={e => setForm(f => ({ ...f, content: e.target.value }))} />
+          <h3 className="font-bold mb-4">{t('community.newPostTitle')}</h3>
+          <input className="input-field mb-3" placeholder={t('community.postTitle')} value={form.display_name} onChange={e => setForm(f => ({ ...f, display_name: e.target.value }))} />
+          <textarea className="input-field mb-3 resize-none" rows={4} placeholder={t('community.postContent')} value={form.content} onChange={e => setForm(f => ({ ...f, content: e.target.value }))} />
           <select className="input-field mb-3" value={form.ethnic_group_id} onChange={e => setForm(f => ({ ...f, ethnic_group_id: e.target.value }))}>
-            <option value="">انتخاب قوم (اختیاری)</option>
+            <option value="">{t('community.selectEthnic')}</option>
             {groups?.map((g: EthnicGroup) => <option key={g.id} value={g.id}>{g.display_name}</option>)}
           </select>
           <div className="flex gap-3">
-            <button onClick={() => mutate()} disabled={!form.content || isPending} className="btn-primary">ارسال</button>
-            <button onClick={() => setShowForm(false)} className="btn-outline">انصراف</button>
+            <button onClick={() => mutate()} disabled={!form.content || isPending} className="btn-primary">{t('community.submit')}</button>
+            <button onClick={() => setShowForm(false)} className="btn-outline">{t('community.cancel')}</button>
           </div>
         </div>
       )}
@@ -57,7 +59,7 @@ export default function CommunityPage() {
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-9 h-9 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-bold">{(p.user_display_name || 'م')[0]}</div>
                 <div>
-                  <p className="font-medium text-sm">{p.user_display_name || 'کاربر مهمان'}</p>
+                  <p className="font-medium text-sm">{p.user_display_name || t('community.guest')}</p>
                   <p className="text-xs text-barna-gray">{new Date(p.created_at).toLocaleDateString('fa-IR')}{p.ethnic_group_display_name && ` · ${p.ethnic_group_display_name}`}</p>
                 </div>
               </div>

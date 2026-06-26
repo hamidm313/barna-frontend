@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0b5345;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a7a4a;stop-opacity:1" />
+    </linearGradient>
+    <pattern id="pattern" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M30 5 L55 30 L30 55 L5 30 Z" fill="none" stroke="#C9A84C" stroke-width="0.8" opacity="0.2"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <rect width="800" height="600" fill="url(#pattern)"/>
+  <text x="400" y="290" font-family="serif" font-size="72" fill="#C9A84C" text-anchor="middle" opacity="0.9">کردی</text>
+  <text x="400" y="360" font-family="serif" font-size="28" fill="#ffffff" text-anchor="middle" opacity="0.7">Kurdish Traditional Costume</text>
+  <rect x="150" y="400" width="500" height="3" fill="#C9A84C" opacity="0.5"/>
+</svg>

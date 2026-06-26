@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#6e2c0e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#922b21;stop-opacity:1" />
+    </linearGradient>
+    <pattern id="pattern" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
+      <polygon points="25,5 45,45 5,45" fill="none" stroke="#e8c97a" stroke-width="0.5" opacity="0.2"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <rect width="800" height="600" fill="url(#pattern)"/>
+  <text x="400" y="290" font-family="serif" font-size="72" fill="#e8c97a" text-anchor="middle" opacity="0.9">لری</text>
+  <text x="400" y="360" font-family="serif" font-size="28" fill="#ffffff" text-anchor="middle" opacity="0.7">Lori Traditional Costume</text>
+  <rect x="150" y="400" width="500" height="3" fill="#e8c97a" opacity="0.5"/>
+</svg>

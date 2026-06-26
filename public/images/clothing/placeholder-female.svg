@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#faf7f2;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f0e8d8;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <circle cx="400" cy="150" r="80" fill="#e8c97a" opacity="0.5"/>
+  <path d="M280 240 Q400 200 520 240 L580 600 Q400 650 220 600 Z" fill="#C9A84C" opacity="0.4"/>
+  <path d="M220 600 L180 900 Q400 930 620 900 L580 600 Q400 650 220 600 Z" fill="#C9A84C" opacity="0.3"/>
+  <text x="400" y="970" font-family="serif" font-size="28" fill="#1e2a4a" text-anchor="middle" opacity="0.6">لباس سنتی</text>
+</svg>

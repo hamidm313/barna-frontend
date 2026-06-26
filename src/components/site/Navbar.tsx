@@ -3,20 +3,22 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useAuth } from '@/providers/AuthProvider';
 import { useSiteTheme } from '@/providers/ThemeProvider';
+import { useTranslation } from '@/lib/i18n';
 import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { isAuthenticated, isAdmin, user, logout } = useAuth();
   const { locale, setLocale } = useSiteTheme();
+  const { t } = useTranslation();
   const router = useRouter();
 
   const navLinks = [
-    { href: '/', label: 'صفحه اصلی' },
-    { href: '/ethnic', label: 'اقوام' },
-    { href: '/clothing', label: 'لباس‌ها' },
-    { href: '/community', label: 'جامعه' },
-    { href: '/about', label: 'درباره ما' },
+    { href: '/', label: t('nav.home') },
+    { href: '/ethnic', label: t('nav.ethnic') },
+    { href: '/clothing', label: t('nav.clothing') },
+    { href: '/community', label: t('nav.community') },
+    { href: '/about', label: t('nav.story') },
   ];
 
   return (
@@ -46,11 +48,11 @@ export default function Navbar() {
             </button>
             {isAuthenticated ? (
               <div className="flex items-center gap-2">
-                {isAdmin && <Link href="/dashboard" className="btn-primary text-sm py-1.5 px-4">داشبورد</Link>}
-                <button onClick={() => { logout(); router.push('/'); }} className="text-sm text-barna-gray hover:text-accent-500 transition-colors">خروج</button>
+                {isAdmin && <Link href="/dashboard" className="btn-primary text-sm py-1.5 px-4">{t('nav.dashboard')}</Link>}
+                <button onClick={() => { logout(); router.push('/'); }} className="text-sm text-barna-gray hover:text-accent-500 transition-colors">{t('nav.logout')}</button>
               </div>
             ) : (
-              <Link href="/login" className="btn-primary text-sm py-1.5 px-4">ورود</Link>
+              <Link href="/login" className="btn-primary text-sm py-1.5 px-4">{t('nav.login')}</Link>
             )}
             {/* Hamburger */}
             <button className="md:hidden p-2" onClick={() => setMenuOpen(!menuOpen)}>

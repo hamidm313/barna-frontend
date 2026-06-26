@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a5276;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2471a3;stop-opacity:1" />
+    </linearGradient>
+    <pattern id="pattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <rect width="40" height="40" fill="none"/>
+      <circle cx="20" cy="20" r="3" fill="#C9A84C" opacity="0.3"/>
+      <line x1="0" y1="20" x2="40" y2="20" stroke="#C9A84C" stroke-width="0.5" opacity="0.2"/>
+      <line x1="20" y1="0" x2="20" y2="40" stroke="#C9A84C" stroke-width="0.5" opacity="0.2"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <rect width="800" height="600" fill="url(#pattern)"/>
+  <text x="400" y="290" font-family="serif" font-size="72" fill="#C9A84C" text-anchor="middle" opacity="0.9">آذری</text>
+  <text x="400" y="360" font-family="serif" font-size="28" fill="#ffffff" text-anchor="middle" opacity="0.7">Azerbaijan Traditional Costume</text>
+  <rect x="150" y="400" width="500" height="3" fill="#C9A84C" opacity="0.5"/>
+</svg>
