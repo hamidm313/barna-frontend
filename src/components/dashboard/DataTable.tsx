@@ -24,7 +24,7 @@ interface DataTableProps<T> {
   emptyMessage?: string;
 }
 
-export default function DataTable<T extends Record<string, unknown>>({
+export default function DataTable<T extends object>({
   columns, rows, keyField, loading = false, total, page = 0, rowsPerPage = 10,
   onPageChange, onRowsPerPageChange, emptyMessage = 'موردی یافت نشد'
 }: DataTableProps<T>) {
@@ -47,10 +47,10 @@ export default function DataTable<T extends Record<string, unknown>>({
             ) : rows.length === 0 ? (
               <TableRow><TableCell colSpan={columns.length} align="center" sx={{ py: 6 }}><Typography sx={{ fontFamily: 'Vazirmatn, sans-serif', color: 'text.secondary' }}>{emptyMessage}</Typography></TableCell></TableRow>
             ) : rows.map((row, i) => (
-              <TableRow key={String(row[keyField])} sx={{ bgcolor: i % 2 === 0 ? 'white' : '#fafafa', '&:hover': { bgcolor: '#f0f4ff' }, transition: 'background 0.15s' }}>
+              <TableRow key={String((row as Record<string, unknown>)[keyField as string])} sx={{ bgcolor: i % 2 === 0 ? 'white' : '#fafafa', '&:hover': { bgcolor: '#f0f4ff' }, transition: 'background 0.15s' }}>
                 {columns.map((col) => (
                   <TableCell key={col.key} align={col.align || 'right'} sx={{ fontFamily: 'Vazirmatn, sans-serif', fontSize: '0.85rem', py: 1.5, borderBottom: '1px solid #f0f0f0' }}>
-                    {col.render ? col.render(row) : String(row[col.key] ?? '')}
+                    {col.render ? col.render(row) : String((row as Record<string, unknown>)[col.key] ?? '')}
                   </TableCell>
                 ))}
               </TableRow>
