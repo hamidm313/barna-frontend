@@ -1,4 +1,113 @@
-import type { User, EthnicGroup, Tag, Clothing, Reservation, Order, Comment, MediaItem, Page, ThemeSettings, CommunityPost, Request } from '@/types';
+import type { User, EthnicGroup, Tag, Clothing, Reservation, Order, Comment, MediaItem, Page, ThemeSettings, CommunityPost, Request, ClothingComponent } from '@/types';
+
+// Reusable component color palettes
+const COLORS_GOLD = [
+  { name: 'طلایی', hex: '#C9A84C' }, { name: 'نقره‌ای', hex: '#9CA3AF' },
+  { name: 'مشکی', hex: '#1a1a1a' }, { name: 'سفید', hex: '#F9FAFB' },
+  { name: 'قرمز', hex: '#DC2626' }, { name: 'سبز', hex: '#16A34A' },
+];
+const COLORS_RICH = [
+  { name: 'آبی کاربنی', hex: '#1a5276' }, { name: 'سبز زمردی', hex: '#0b5345' },
+  { name: 'قرمز آجری', hex: '#922b21' }, { name: 'بنفش', hex: '#6c3483' },
+  { name: 'نارنجی', hex: '#b7440a' }, { name: 'طلایی', hex: '#C9A84C' },
+  { name: 'مشکی', hex: '#1a1a1a' }, { name: 'سفید', hex: '#F9FAFB' },
+];
+const COLORS_NATURAL = [
+  { name: 'پشمی طبیعی', hex: '#D4B896' }, { name: 'قهوه‌ای', hex: '#7c5c3a' },
+  { name: 'قرمز تیره', hex: '#7f1d1d' }, { name: 'مشکی', hex: '#1a1a1a' },
+  { name: 'خاکستری', hex: '#6B7280' }, { name: 'آجری', hex: '#b45309' },
+];
+const COLORS_SHOES = [
+  { name: 'مشکی', hex: '#1a1a1a' }, { name: 'قهوه‌ای', hex: '#7c5c3a' },
+  { name: 'طلایی', hex: '#C9A84C' }, { name: 'قرمز', hex: '#DC2626' },
+  { name: 'سفید', hex: '#F9FAFB' }, { name: 'بنفش', hex: '#6c3483' },
+];
+
+// Component templates per ethnic style
+const azariComponents: ClothingComponent[] = [
+  { type: 'headwear', display_name: 'تاج / کله‌پوش آذری', color_options: COLORS_GOLD, default_color: '#C9A84C' },
+  { type: 'top', display_name: 'بالاتنه آذری (یخه و سردوشی)', color_options: COLORS_RICH, default_color: '#1a5276' },
+  { type: 'bottom', display_name: 'دامن آذری (پرچین)', color_options: COLORS_RICH, default_color: '#1a5276' },
+  { type: 'belt', display_name: 'کمربند / شال کمر', color_options: COLORS_GOLD, default_color: '#C9A84C', is_optional: true },
+  { type: 'outerwear', display_name: 'آرخالیغ (ژاکت رویی)', color_options: COLORS_RICH, default_color: '#922b21', is_optional: true },
+  { type: 'footwear', display_name: 'کفش سنتی آذری', color_options: COLORS_SHOES, default_color: '#7c5c3a' },
+  { type: 'accessory', display_name: 'گردنبند و دستبند', color_options: COLORS_GOLD, default_color: '#C9A84C', is_optional: true },
+];
+
+const loriComponents: ClothingComponent[] = [
+  { type: 'headwear', display_name: 'دستمال سر لری', color_options: COLORS_NATURAL, default_color: '#D4B896' },
+  { type: 'top', display_name: 'پیراهن بالاتنه لری', color_options: COLORS_NATURAL, default_color: '#7f1d1d' },
+  { type: 'bottom', display_name: 'شلوار / دامن لری', color_options: COLORS_NATURAL, default_color: '#1a1a1a' },
+  { type: 'belt', display_name: 'شال کمر رنگارنگ', color_options: COLORS_RICH, default_color: '#C9A84C', is_optional: true },
+  { type: 'outerwear', display_name: 'چوقا (کت سنتی)', color_options: COLORS_NATURAL, default_color: '#7c5c3a', is_optional: true },
+  { type: 'footwear', display_name: 'گیوه لری', color_options: COLORS_NATURAL, default_color: '#D4B896' },
+  { type: 'accessory', display_name: 'تسمه و آویز', color_options: COLORS_GOLD, default_color: '#C9A84C', is_optional: true },
+];
+
+const kurdiComponents: ClothingComponent[] = [
+  { type: 'headwear', display_name: 'شال سر کردی', color_options: COLORS_RICH, default_color: '#0b5345' },
+  { type: 'top', display_name: 'کرت / بالاتنه کردی', color_options: COLORS_RICH, default_color: '#0b5345' },
+  { type: 'bottom', display_name: 'دامن پرچین کردی', color_options: COLORS_RICH, default_color: '#C9A84C' },
+  { type: 'belt', display_name: 'شال کمر کردی', color_options: COLORS_GOLD, default_color: '#C9A84C' },
+  { type: 'outerwear', display_name: 'کلاشه (ژاکت کردی)', color_options: COLORS_RICH, default_color: '#0b5345', is_optional: true },
+  { type: 'footwear', display_name: 'پاپوش کردی', color_options: COLORS_SHOES, default_color: '#1a1a1a' },
+  { type: 'accessory', display_name: 'سینه‌ریز و دستبند', color_options: COLORS_GOLD, default_color: '#C9A84C', is_optional: true },
+];
+
+const bandariComponents: ClothingComponent[] = [
+  { type: 'headwear', display_name: 'برقع بندری', color_options: COLORS_RICH, default_color: '#6c3483' },
+  { type: 'top', display_name: 'بالاتنه بندری', color_options: COLORS_RICH, default_color: '#6c3483' },
+  { type: 'bottom', display_name: 'دامن چین‌دار بندری', color_options: COLORS_RICH, default_color: '#b7440a' },
+  { type: 'belt', display_name: 'کمربند تزئینی', color_options: COLORS_GOLD, default_color: '#C9A84C', is_optional: true },
+  { type: 'footwear', display_name: 'دمپایی تزئینی', color_options: COLORS_SHOES, default_color: '#C9A84C' },
+  { type: 'accessory', display_name: 'خلخال و دستبند', color_options: COLORS_GOLD, default_color: '#C9A84C', is_optional: true },
+];
+
+const arabiComponents: ClothingComponent[] = [
+  { type: 'headwear', display_name: 'کوفیه / چفیه', color_options: [{ name: 'سفید', hex: '#F9FAFB' }, { name: 'سیاه و سفید', hex: '#1a1a1a' }, { name: 'قرمز و سفید', hex: '#DC2626' }], default_color: '#F9FAFB' },
+  { type: 'top', display_name: 'دشداشه / قمیص', color_options: [{ name: 'سفید', hex: '#F9FAFB' }, { name: 'کرم', hex: '#D4B896' }, { name: 'مشکی', hex: '#1a1a1a' }, { name: 'آبی', hex: '#1a5276' }], default_color: '#F9FAFB' },
+  { type: 'outerwear', display_name: 'عبا / بشت', color_options: [{ name: 'مشکی', hex: '#1a1a1a' }, { name: 'قهوه‌ای', hex: '#7c5c3a' }, { name: 'سفید', hex: '#F9FAFB' }], default_color: '#1a1a1a', is_optional: true },
+  { type: 'footwear', display_name: 'صندل عربی', color_options: COLORS_SHOES, default_color: '#D4B896' },
+  { type: 'accessory', display_name: 'مسبحه', color_options: COLORS_GOLD, default_color: '#C9A84C', is_optional: true },
+];
+
+const turkmenComponents: ClothingComponent[] = [
+  { type: 'headwear', display_name: 'تلپک (کلاه ترکمن)', color_options: COLORS_NATURAL, default_color: '#7c5c3a' },
+  { type: 'top', display_name: 'کوینک / پیراهن ترکمن', color_options: COLORS_RICH, default_color: '#b7440a' },
+  { type: 'bottom', display_name: 'شلوار ترکمن', color_options: COLORS_NATURAL, default_color: '#1a1a1a' },
+  { type: 'outerwear', display_name: 'چاپان (ردا ابریشمی)', color_options: COLORS_RICH, default_color: '#b7440a', is_optional: true },
+  { type: 'belt', display_name: 'کمربند نقره‌کوب', color_options: COLORS_GOLD, default_color: '#C9A84C', is_optional: true },
+  { type: 'footwear', display_name: 'چکمه ترکمنی', color_options: COLORS_SHOES, default_color: '#7c5c3a' },
+  { type: 'accessory', display_name: 'آویزهای نقره', color_options: COLORS_GOLD, default_color: '#9CA3AF', is_optional: true },
+];
+
+const barnaModernComponents: ClothingComponent[] = [
+  { type: 'headwear', display_name: 'تاج / هدبند مدرن', color_options: COLORS_GOLD, default_color: '#C9A84C', is_optional: true },
+  { type: 'top', display_name: 'بالاتنه فیوژن برنا', color_options: COLORS_RICH, default_color: '#1E2A4A' },
+  { type: 'bottom', display_name: 'دامن / شلوار فیوژن', color_options: COLORS_RICH, default_color: '#C9A84C' },
+  { type: 'belt', display_name: 'کمربند مدرن', color_options: COLORS_GOLD, default_color: '#C9A84C', is_optional: true },
+  { type: 'outerwear', display_name: 'کت / شنل رویی', color_options: COLORS_RICH, default_color: '#1E2A4A', is_optional: true },
+  { type: 'footwear', display_name: 'کفش طراح', color_options: COLORS_SHOES, default_color: '#1a1a1a' },
+  { type: 'accessory', display_name: 'اکسسوری مدرن', color_options: COLORS_GOLD, default_color: '#C9A84C', is_optional: true },
+];
+
+const jamiComponents: ClothingComponent[] = [
+  { type: 'headwear', display_name: 'روسری چین‌دار جمی', color_options: COLORS_RICH, default_color: '#b7440a' },
+  { type: 'top', display_name: 'بالاتنه بلند جمی', color_options: COLORS_RICH, default_color: '#1a5276' },
+  { type: 'bottom', display_name: 'دامن چین‌دار جمی', color_options: COLORS_RICH, default_color: '#b7440a' },
+  { type: 'belt', display_name: 'کمربند گلدوزی‌شده', color_options: COLORS_GOLD, default_color: '#C9A84C', is_optional: true },
+  { type: 'footwear', display_name: 'کفش تزئینی جنوبی', color_options: COLORS_SHOES, default_color: '#C9A84C' },
+  { type: 'accessory', display_name: 'دستبند و گردنبند', color_options: COLORS_GOLD, default_color: '#C9A84C', is_optional: true },
+];
+
+const azariMaleComponents: ClothingComponent[] = [
+  { type: 'headwear', display_name: 'کلاه پوستی آذری', color_options: COLORS_NATURAL, default_color: '#7c5c3a' },
+  { type: 'top', display_name: 'پیراهن سنتی آذری', color_options: COLORS_RICH, default_color: '#1a5276' },
+  { type: 'bottom', display_name: 'شلوار مردانه آذری', color_options: COLORS_NATURAL, default_color: '#1a1a1a' },
+  { type: 'belt', display_name: 'شال کمر مردانه', color_options: COLORS_RICH, default_color: '#922b21' },
+  { type: 'outerwear', display_name: 'قبا / آرخالیغ مردانه', color_options: COLORS_RICH, default_color: '#1a5276', is_optional: true },
+  { type: 'footwear', display_name: 'چکمه آذری', color_options: COLORS_SHOES, default_color: '#7c5c3a' },
+];
 
 export const mockUsers: User[] = [
   { id: 1, uuid: 'uuid-user-1', display_name: 'مدیر سیستم', email: 'admin@barna.ir', phone: '09121234567', role: 'admin', is_active: true, created_at: '2024-01-01T00:00:00Z' },
@@ -33,123 +142,135 @@ export const mockTags: Tag[] = [
 
 export const mockClothing: Clothing[] = [
   {
-    id: 1, uuid: 'uuid-clothing-1', display_name: 'لباس عروس آذری طلایی', slug: 'lebas-arus-azari-talai', ethnic_group_id: 1, ethnic_group_display_name: 'آذری',
+    id: 1, uuid: 'uuid-clothing-1', display_name: 'لباس عروس آذری طلایی', slug: 'lebas-arus-azari-talai', ethnic_group_id: 1, ethnic_group_display_name: 'آذری', ethnic_group_slug: 'azari',
     category: 'traditional', gender: 'female', size: 'M', color: 'طلایی', material: 'ابریشم',
     condition_status: 'excellent',
     rental_price_per_day: 150000, sale_price: 4500000, deposit_amount: 1000000,
     status: 'available', is_featured: true, is_for_rent: true, is_for_sale: true, view_count: 0,
     images: ['/images/clothing/azari-gold.svg', '/images/ethnic/azari.svg'],
     description: 'لباس عروس تمام دستباف آذری با گلدوزی طلایی. مناسب برای مراسم عروسی و جشن‌های رسمی.',
+    components: azariComponents,
     created_at: '2024-01-10T00:00:00Z',
   },
   {
-    id: 2, uuid: 'uuid-clothing-2', display_name: 'جامه لری دستباف', slug: 'jame-lori-dastbaf', ethnic_group_id: 2, ethnic_group_display_name: 'لری',
+    id: 2, uuid: 'uuid-clothing-2', display_name: 'جامه لری دستباف', slug: 'jame-lori-dastbaf', ethnic_group_id: 2, ethnic_group_display_name: 'لری', ethnic_group_slug: 'lori',
     category: 'traditional', gender: 'female', size: 'L', color: 'قرمز و مشکی', material: 'پشم',
     condition_status: 'good',
     rental_price_per_day: 80000, deposit_amount: 500000,
     status: 'available', is_featured: true, is_for_rent: true, is_for_sale: false, view_count: 0,
     images: ['/images/clothing/lori-red.svg'],
     description: 'جامه اصیل لری با نقوش قبیله‌ای دستباف از پشم گوسفند محلی.',
+    components: loriComponents,
     created_at: '2024-01-15T00:00:00Z',
   },
   {
-    id: 3, uuid: 'uuid-clothing-3', display_name: 'کرت کردی ابریشمی', slug: 'kert-kurdi-abrishi', ethnic_group_id: 3, ethnic_group_display_name: 'کردی',
+    id: 3, uuid: 'uuid-clothing-3', display_name: 'کرت کردی ابریشمی', slug: 'kert-kurdi-abrishi', ethnic_group_id: 3, ethnic_group_display_name: 'کردی', ethnic_group_slug: 'kurdi',
     category: 'traditional', gender: 'female', size: 'S', color: 'سبز زمردی', material: 'ابریشم',
     condition_status: 'excellent',
     rental_price_per_day: 120000, sale_price: 3800000, deposit_amount: 800000,
     status: 'available', is_featured: true, is_for_rent: true, is_for_sale: true, view_count: 0,
     images: ['/images/clothing/kurdi-green.svg', '/images/clothing/placeholder-female.svg'],
     description: 'کرت ابریشمی کردستان با گلدوزی دست و زری‌دوزی. طرح اصیل سنندجی.',
+    components: kurdiComponents,
     created_at: '2024-02-01T00:00:00Z',
   },
   {
-    id: 4, uuid: 'uuid-clothing-4', display_name: 'لباس بندری رنگارنگ', slug: 'lebas-bandari-rangarang', ethnic_group_id: 6, ethnic_group_display_name: 'بندری',
+    id: 4, uuid: 'uuid-clothing-4', display_name: 'لباس بندری رنگارنگ', slug: 'lebas-bandari-rangarang', ethnic_group_id: 6, ethnic_group_display_name: 'بندری', ethnic_group_slug: 'bandari',
     category: 'traditional', gender: 'female', size: 'M', color: 'چندرنگ', material: 'کتان',
     condition_status: 'good',
     rental_price_per_day: 70000, deposit_amount: 400000,
     status: 'rented', is_featured: false, is_for_rent: true, is_for_sale: false, view_count: 0,
     images: ['/images/clothing/bandari-purple.svg'],
     description: 'لباس سنتی بندری با برقع دستباف و دامن رنگارنگ.',
+    components: bandariComponents,
     created_at: '2024-02-10T00:00:00Z',
   },
   {
-    id: 5, uuid: 'uuid-clothing-5', display_name: 'دشداشه عربی اصیل', slug: 'dashdasha-arabi-asil', ethnic_group_id: 7, ethnic_group_display_name: 'عربی',
+    id: 5, uuid: 'uuid-clothing-5', display_name: 'دشداشه عربی اصیل', slug: 'dashdasha-arabi-asil', ethnic_group_id: 7, ethnic_group_display_name: 'عربی', ethnic_group_slug: 'arabi',
     category: 'traditional', gender: 'male', size: 'XL', color: 'سفید', material: 'کتان',
     condition_status: 'excellent',
     rental_price_per_day: 60000, sale_price: 1800000, deposit_amount: 300000,
     status: 'available', is_featured: false, is_for_rent: true, is_for_sale: true, view_count: 0,
     images: ['/images/clothing/arabi-sand.svg'],
     description: 'دشداشه عربی خوزستانی اصیل با دوخت سنتی.',
+    components: arabiComponents,
     created_at: '2024-02-20T00:00:00Z',
   },
   {
-    id: 6, uuid: 'uuid-clothing-6', display_name: 'کلاه و جلیقه ترکمن', slug: 'kolah-jelige-torkaman', ethnic_group_id: 5, ethnic_group_display_name: 'ترکمن',
+    id: 6, uuid: 'uuid-clothing-6', display_name: 'کلاه و جلیقه ترکمن', slug: 'kolah-jelige-torkaman', ethnic_group_id: 5, ethnic_group_display_name: 'ترکمن', ethnic_group_slug: 'turkmen',
     category: 'traditional', gender: 'male', size: 'M', color: 'قرمز و طلایی', material: 'ابریشم',
     condition_status: 'excellent',
     rental_price_per_day: 50000, sale_price: 2500000, deposit_amount: 500000,
     status: 'available', is_featured: false, is_for_rent: true, is_for_sale: true, view_count: 0,
     images: ['/images/clothing/turkmen-orange.svg'],
     description: 'کلاه پوستی و جلیقه ابریشمی ترکمن با نقوش اصیل.',
+    components: turkmenComponents,
     created_at: '2024-03-01T00:00:00Z',
   },
   {
-    id: 7, uuid: 'uuid-clothing-7', display_name: 'فیوژن برنا - مدل شمال', slug: 'fusion-barna-model-shomal', ethnic_group_id: 8, ethnic_group_display_name: 'مدرن برنا',
+    id: 7, uuid: 'uuid-clothing-7', display_name: 'فیوژن برنا - مدل شمال', slug: 'fusion-barna-model-shomal', ethnic_group_id: 8, ethnic_group_display_name: 'مدرن برنا', ethnic_group_slug: 'barna-modern',
     category: 'fusion', gender: 'female', size: 'M', color: 'کرم و طلایی', material: 'ابریشم مصنوعی',
     condition_status: 'excellent',
     rental_price_per_day: 200000, sale_price: 6000000, deposit_amount: 1500000,
     status: 'available', is_featured: true, is_for_rent: true, is_for_sale: true, view_count: 0,
     images: ['/images/clothing/barna-modern-dark.svg', '/images/clothing/azari-gold.svg'],
     description: 'طراحی اختصاصی برنا با ترکیب عناصر سنتی ایرانی و خطوط مدرن.',
+    components: barnaModernComponents,
     created_at: '2024-03-10T00:00:00Z',
   },
   {
-    id: 8, uuid: 'uuid-clothing-8', display_name: 'لباس بوشهری دریایی', slug: 'lebas-bushehri-daryai', ethnic_group_id: 4, ethnic_group_display_name: 'بوشهری',
+    id: 8, uuid: 'uuid-clothing-8', display_name: 'لباس بوشهری دریایی', slug: 'lebas-bushehri-daryai', ethnic_group_id: 4, ethnic_group_display_name: 'بوشهری', ethnic_group_slug: 'jami',
     category: 'traditional', gender: 'female', size: 'S', color: 'آبی و سفید', material: 'کتان سبک',
     condition_status: 'good',
     rental_price_per_day: 65000, deposit_amount: 350000,
     status: 'available', is_featured: false, is_for_rent: true, is_for_sale: false, view_count: 0,
     images: ['/images/ethnic/jami.svg'],
     description: 'لباس سبک بوشهری با نقوش موج دریا مناسب برای مناطق گرمسیری.',
+    components: jamiComponents,
     created_at: '2024-03-15T00:00:00Z',
   },
   {
-    id: 9, uuid: 'uuid-clothing-9', display_name: 'قبا مردانه آذری', slug: 'gaba-mardane-azari', ethnic_group_id: 1, ethnic_group_display_name: 'آذری',
+    id: 9, uuid: 'uuid-clothing-9', display_name: 'قبا مردانه آذری', slug: 'gaba-mardane-azari', ethnic_group_id: 1, ethnic_group_display_name: 'آذری', ethnic_group_slug: 'azari',
     category: 'traditional', gender: 'male', size: 'L', color: 'مشکی و نقره‌ای', material: 'مخمل',
     condition_status: 'excellent',
     rental_price_per_day: 100000, sale_price: 3200000, deposit_amount: 700000,
     status: 'available', is_featured: false, is_for_rent: true, is_for_sale: true, view_count: 0,
     images: ['/images/clothing/placeholder-male.svg'],
     description: 'قبای مخملی مردانه آذری با دوخت سنتی تبریز.',
+    components: azariMaleComponents,
     created_at: '2024-03-20T00:00:00Z',
   },
   {
-    id: 10, uuid: 'uuid-clothing-10', display_name: 'لباس کودک لری', slug: 'lebas-kodak-lori', ethnic_group_id: 2, ethnic_group_display_name: 'لری',
+    id: 10, uuid: 'uuid-clothing-10', display_name: 'لباس کودک لری', slug: 'lebas-kodak-lori', ethnic_group_id: 2, ethnic_group_display_name: 'لری', ethnic_group_slug: 'lori',
     category: 'traditional', gender: 'child', size: '8-10 سال', color: 'رنگارنگ', material: 'پنبه',
     condition_status: 'excellent',
     rental_price_per_day: 30000, sale_price: 800000, deposit_amount: 150000,
     status: 'available', is_featured: false, is_for_rent: true, is_for_sale: true, view_count: 0,
     images: ['/images/clothing/lori-red.svg'],
     description: 'لباس رنگارنگ لری مناسب برای کودکان با پارچه پنبه‌ای نرم.',
+    components: loriComponents,
     created_at: '2024-04-01T00:00:00Z',
   },
   {
-    id: 11, uuid: 'uuid-clothing-11', display_name: 'لباس عروس کردی سنندجی', slug: 'lebas-arus-kurdi-sanandaji', ethnic_group_id: 3, ethnic_group_display_name: 'کردی',
+    id: 11, uuid: 'uuid-clothing-11', display_name: 'لباس عروس کردی سنندجی', slug: 'lebas-arus-kurdi-sanandaji', ethnic_group_id: 3, ethnic_group_display_name: 'کردی', ethnic_group_slug: 'kurdi',
     category: 'traditional', gender: 'female', size: 'M', color: 'طلایی و سبز', material: 'ابریشم',
     condition_status: 'excellent',
     rental_price_per_day: 180000, deposit_amount: 1200000,
     status: 'reserved', is_featured: true, is_for_rent: true, is_for_sale: false, view_count: 0,
     images: ['/images/clothing/kurdi-green.svg'],
     description: 'لباس عروس سنتی کردی با گلدوزی طلایی و تاج مخصوص سنندج.',
+    components: kurdiComponents,
     created_at: '2024-04-05T00:00:00Z',
   },
   {
-    id: 12, uuid: 'uuid-clothing-12', display_name: 'طرح برنا - فیوژن جنوبی', slug: 'tarh-barna-fusion-jonoubi', ethnic_group_id: 8, ethnic_group_display_name: 'مدرن برنا',
+    id: 12, uuid: 'uuid-clothing-12', display_name: 'طرح برنا - فیوژن جنوبی', slug: 'tarh-barna-fusion-jonoubi', ethnic_group_id: 8, ethnic_group_display_name: 'مدرن برنا', ethnic_group_slug: 'barna-modern',
     category: 'fusion', gender: 'female', size: 'L', color: 'مرجانی و طلایی', material: 'مخلوط',
     condition_status: 'excellent',
     rental_price_per_day: 220000, sale_price: 7500000, deposit_amount: 2000000,
     status: 'available', is_featured: true, is_for_rent: true, is_for_sale: true, view_count: 0,
     images: ['/images/clothing/bandari-purple.svg'],
     description: 'طرح فیوژن برنا با الهام از پوشاک جنوب ایران.',
+    components: barnaModernComponents,
     created_at: '2024-04-10T00:00:00Z',
   },
 ];

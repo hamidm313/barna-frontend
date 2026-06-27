@@ -8,9 +8,12 @@ import ClothingCard from '@/components/site/ClothingCard';
 import { Clothing } from '@/types';
 import LoadingSpinner from '@/components/common/LoadingSpinner';
 import Image from 'next/image';
+import Link from 'next/link';
+import { useTranslation } from '@/lib/i18n';
 
 export default function EthnicDetailPage() {
   const { slug } = useParams<{ slug: string }>();
+  const { t } = useTranslation();
 
   const { data: group } = useQuery({
     queryKey: queryKeys.ethnicGroups.detail(slug),
@@ -35,8 +38,13 @@ export default function EthnicDetailPage() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-xl font-bold text-barna-dark">لباس‌های این قوم</h2>
-          <span className="text-sm text-barna-gray">{clothing?.pagination?.total || 0} لباس</span>
+          <div>
+            <h2 className="text-xl font-bold text-barna-dark">{t('ethnic.clothingListTitle')}</h2>
+          </div>
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-barna-gray">{clothing?.pagination?.total || 0} {t('ethnic.clothingCount')}</span>
+            <Link href={`/configurator?ethnic=${slug}`} className="btn-outline text-sm py-1.5 px-3">👗 {t('ethnic.tryOnLink')}</Link>
+          </div>
         </div>
         {isLoading ? <LoadingSpinner className="h-48" /> : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">

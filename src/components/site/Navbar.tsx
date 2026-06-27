@@ -18,6 +18,7 @@ export default function Navbar() {
     { href: '/', label: t('nav.home') },
     { href: '/ethnic', label: t('nav.ethnic') },
     { href: '/clothing', label: t('nav.clothing') },
+    { href: '/configurator', label: t('nav.configurator') },
     { href: '/community', label: t('nav.community') },
     { href: '/about', label: t('nav.story') },
     { href: '/contact', label: t('nav.contact') },

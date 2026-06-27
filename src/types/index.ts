@@ -33,6 +33,22 @@ export type ClothingCategory = 'traditional' | 'modern' | 'fusion' | 'barna_desi
 export type ClothingGender = 'female' | 'male' | 'unisex' | 'child';
 export type ClothingStatus = 'available' | 'rented' | 'sold' | 'reserved' | 'maintenance';
 export type ClothingCondition = 'excellent' | 'good' | 'fair';
+export type MannequinGender = 'female' | 'male' | 'child';
+export type MannequinSize = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
+export type ClothingComponentType = 'headwear' | 'top' | 'bottom' | 'belt' | 'outerwear' | 'footwear' | 'accessory';
+
+export interface ColorOption {
+  name: string;
+  hex: string;
+}
+
+export interface ClothingComponent {
+  type: ClothingComponentType;
+  display_name: string;
+  color_options: ColorOption[];
+  is_optional?: boolean;
+  default_color?: string;
+}
 
 export interface Clothing {
   id: number;
@@ -62,6 +78,7 @@ export interface Clothing {
   after_image?: string;
   view_count: number;
   tags?: Tag[];
+  components?: ClothingComponent[];
   created_at: string;
 }
 

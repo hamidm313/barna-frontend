@@ -8,14 +8,13 @@ import CommentSection from '@/components/site/CommentSection';
 import PriceDisplay from '@/components/common/PriceDisplay';
 import Image from 'next/image';
 import { useState } from 'react';
-
-const statusLabels: Record<string, string> = { available: 'موجود', rented: 'در امانت', sold: 'فروخته شده', reserved: 'رزرو شده', maintenance: 'در تعمیر' };
-const categoryLabels: Record<string, string> = { traditional: 'سنتی', modern: 'مدرن', fusion: 'تلفیقی', barna_design: 'طرح برنا', wardrobe: 'کمد لباس' };
-const genderLabels: Record<string, string> = { female: 'زنانه', male: 'مردانه', unisex: 'مشترک', child: 'بچگانه' };
+import { useTranslation } from '@/lib/i18n';
+import Link from 'next/link';
 
 export default function ClothingDetailPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
+  const { t } = useTranslation();
   const [activeImg, setActiveImg] = useState(0);
 
   const { data: clothing, isLoading } = useQuery({
@@ -23,14 +22,35 @@ export default function ClothingDetailPage() {
     queryFn: () => clothingApi.getOne(id),
   });
 
+  const categoryLabels: Record<string, string> = {
+    traditional: t('clothing.catTraditional'),
+    modern: t('clothing.catModern'),
+    fusion: t('clothing.catFusion'),
+    barna_design: t('clothing.catBarna'),
+    wardrobe: t('clothing.catWardrobe'),
+  };
+  const genderLabels: Record<string, string> = {
+    female: t('clothing.genderFemale'),
+    male: t('clothing.genderMale'),
+    unisex: t('clothing.genderUnisex'),
+    child: t('clothing.genderChild'),
+  };
+  const statusLabels: Record<string, string> = {
+    available: t('status.available'),
+    rented: t('status.rented'),
+    sold: t('status.sold'),
+    reserved: t('status.reserved'),
+    maintenance: t('status.maintenance'),
+  };
+
   if (isLoading) return <LoadingSpinner className="h-screen" />;
-  if (!clothing) return <div className="text-center py-20">لباس یافت نشد</div>;
+  if (!clothing) return <div className="text-center py-20">{t('clothing.notFound')}</div>;
 
   const images = Array.isArray(clothing.images) ? clothing.images : JSON.parse((clothing.images as any) || '[]');
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-      <button onClick={() => router.back()} className="text-sm text-barna-gray hover:text-primary-600 mb-6 flex items-center gap-1">← بازگشت</button>
+      <button onClick={() => router.back()} className="text-sm text-barna-gray hover:text-primary-600 mb-6 flex items-center gap-1">{t('clothing.backButton')}</button>
 
       <div className="grid md:grid-cols-2 gap-10 mb-12">
         {/* Images */}
@@ -49,6 +69,10 @@ export default function ClothingDetailPage() {
               ))}
             </div>
           )}
+          {/* Try-On link */}
+          <Link href={`/configurator?clothing=${clothing.id}&ethnic=${clothing.ethnic_group_slug || ''}`} className="mt-4 w-full btn-outline flex items-center justify-center gap-2 text-sm">
+            👗 {t('configurator.title')}
+          </Link>
         </div>
 
         {/* Details */}
@@ -67,40 +91,40 @@ export default function ClothingDetailPage() {
           {clothing.description && <p className="text-barna-gray leading-8 mb-6">{clothing.description}</p>}
 
           <div className="grid grid-cols-2 gap-3 mb-6 text-sm">
-            {clothing.material && <div><span className="text-barna-gray">جنس: </span><span className="font-medium">{clothing.material}</span></div>}
-            {clothing.color && <div><span className="text-barna-gray">رنگ: </span><span className="font-medium">{clothing.color}</span></div>}
-            {clothing.size && <div><span className="text-barna-gray">سایز: </span><span className="font-medium">{clothing.size}</span></div>}
-            {clothing.era && <div><span className="text-barna-gray">دوره: </span><span className="font-medium">{clothing.era}</span></div>}
+            {clothing.material && <div><span className="text-barna-gray">{t('clothing.material')}: </span><span className="font-medium">{clothing.material}</span></div>}
+            {clothing.color && <div><span className="text-barna-gray">{t('clothing.color')}: </span><span className="font-medium">{clothing.color}</span></div>}
+            {clothing.size && <div><span className="text-barna-gray">{t('clothing.size')}: </span><span className="font-medium">{clothing.size}</span></div>}
+            {clothing.era && <div><span className="text-barna-gray">{t('clothing.era')}: </span><span className="font-medium">{clothing.era}</span></div>}
           </div>
 
           <div className="bg-barna-cream rounded-barna p-4 mb-6 space-y-2">
             {clothing.is_for_rent && clothing.rental_price_per_day && (
-              <div className="flex justify-between"><span className="text-barna-gray text-sm">کرایه روزانه</span><PriceDisplay amount={clothing.rental_price_per_day} /></div>
+              <div className="flex justify-between"><span className="text-barna-gray text-sm">{t('clothing.dailyRent')}</span><PriceDisplay amount={clothing.rental_price_per_day} /></div>
             )}
             {clothing.is_for_rent && clothing.deposit_amount && (
-              <div className="flex justify-between"><span className="text-barna-gray text-sm">ودیعه</span><PriceDisplay amount={clothing.deposit_amount} /></div>
+              <div className="flex justify-between"><span className="text-barna-gray text-sm">{t('clothing.deposit')}</span><PriceDisplay amount={clothing.deposit_amount} /></div>
             )}
             {clothing.is_for_sale && clothing.sale_price && (
-              <div className="flex justify-between border-t border-gray-200 pt-2"><span className="text-barna-gray text-sm">قیمت فروش</span><PriceDisplay amount={clothing.sale_price} className="text-lg" /></div>
+              <div className="flex justify-between border-t border-gray-200 pt-2"><span className="text-barna-gray text-sm">{t('clothing.salePrice')}</span><PriceDisplay amount={clothing.sale_price} className="text-lg" /></div>
             )}
           </div>
 
           <div className="flex gap-3">
             {clothing.is_for_rent && clothing.status === 'available' && (
-              <button onClick={() => router.push(`/reserve/${clothing.id}`)} className="btn-primary flex-1">رزرو امانی</button>
+              <button onClick={() => router.push(`/reserve/${clothing.id}`)} className="btn-primary flex-1">{t('clothing.rentBtn')}</button>
             )}
             {clothing.is_for_sale && clothing.status === 'available' && (
-              <button onClick={() => router.push(`/order/${clothing.id}`)} className="btn-accent flex-1">خرید</button>
+              <button onClick={() => router.push(`/order/${clothing.id}`)} className="btn-accent flex-1">{t('clothing.buyBtn')}</button>
             )}
           </div>
 
           {/* Before/After */}
           {(clothing.before_image || clothing.after_image) && (
             <div className="mt-6">
-              <h3 className="font-semibold mb-3">قبل و بعد از بازسازی</h3>
+              <h3 className="font-semibold mb-3">{t('clothing.beforeAfter')}</h3>
               <div className="grid grid-cols-2 gap-3">
-                {clothing.before_image && <div className="relative aspect-square rounded-lg overflow-hidden"><Image src={clothing.before_image} alt="قبل" fill className="object-cover" sizes="200px" /><span className="absolute bottom-2 start-2 badge bg-gray-700/80 text-white text-xs">قبل</span></div>}
-                {clothing.after_image && <div className="relative aspect-square rounded-lg overflow-hidden"><Image src={clothing.after_image} alt="بعد" fill className="object-cover" sizes="200px" /><span className="absolute bottom-2 start-2 badge bg-primary-600/90 text-white text-xs">بعد</span></div>}
+                {clothing.before_image && <div className="relative aspect-square rounded-lg overflow-hidden"><Image src={clothing.before_image} alt={t('clothing.before')} fill className="object-cover" sizes="200px" /><span className="absolute bottom-2 start-2 badge bg-gray-700/80 text-white text-xs">{t('clothing.before')}</span></div>}
+                {clothing.after_image && <div className="relative aspect-square rounded-lg overflow-hidden"><Image src={clothing.after_image} alt={t('clothing.after')} fill className="object-cover" sizes="200px" /><span className="absolute bottom-2 start-2 badge bg-primary-600/90 text-white text-xs">{t('clothing.after')}</span></div>}
               </div>
             </div>
           )}
